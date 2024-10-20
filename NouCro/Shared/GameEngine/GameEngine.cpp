@@ -18,11 +18,11 @@ int GameEngine::addMove(vector<int> move) {
     setStateForMove(move, 1);
     int r = move[0];
     int c = move[1];
-    if (rows[turn][r] || cols[turn][c] || diag[turn][0] || diag[turn][1] == 3) {
+    if (rows[turn][r] == n || cols[turn][c] == n || diag[turn][0] == n || diag[turn][1] == n) {
         winner = turn;
         return -1;
     }
-    if (turn < players)
+    if (turn < players - 1)
         turn += 1;
     else
         turn = 0;
@@ -49,10 +49,14 @@ void GameEngine::setStateForMove(vector<int> move, int unit) {
     rows[turn][r] += unit;
     cols[turn][c] += unit;
     if (r == c)
-        diag[turn][0] += 1;
+        diag[turn][0] += unit;
     if (r + c == n - 1)
-        diag[turn][1] += 1;
+        diag[turn][1] += unit;
     return;
+}
+
+int GameEngine::getWinner() {
+    return winner;
 }
 
 void GameEngine::resetBoard() {
