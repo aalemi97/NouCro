@@ -11,6 +11,17 @@ class HomeViewController: UIViewController, Storyboarded {
     
     private var viewModel: ViewModelProvider
     
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var settingsButton: UIButton! {
+        didSet {
+            settingsButton.setTitle("", for: .normal)
+        }
+    }
+    @IBOutlet weak var undoButton: UIButton!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var colleccionView: UICollectionView!
+    
     required init?(coder: NSCoder, viewModel: ViewModelProvider) {
         self.viewModel = viewModel
         super.init(coder: coder)
@@ -22,7 +33,6 @@ class HomeViewController: UIViewController, Storyboarded {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .purple
     }
 
 }
