@@ -46,6 +46,14 @@ class HomeViewController: UIViewController, Storyboarded {
         viewModel.viewDidLoad(self)
     }
     
+    func didSelectItem(at index: Int) {
+        (viewModel as? HomeViewModel)?.didSelectItem(at: index)
+    }
+    
+    func restartGame() {
+        (viewModel as? HomeViewModel)?.createBoard()
+    }
+    
     private func setupCollectionView() {
         collecionView.delegate = self
         let nib = UINib(nibName: ActionCollectionViewCell.reuseID, bundle: .main)

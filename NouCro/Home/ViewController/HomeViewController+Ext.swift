@@ -12,8 +12,12 @@ extension HomeViewController: Viewable {
     func show(result: Result<Any, any Error>) {
         switch result {
         case .success(let data):
-            guard let source = data as? [Action] else { return }
-            setupCollectionView(source: source)
+            if let source = data as? [Action] {
+                setupCollectionView(source: source)
+            }
+            if let source = data as? String {
+                annouceGameResult(source)
+            }
         case .failure(let error):
             print(error)
         }
@@ -29,11 +33,27 @@ extension HomeViewController: Viewable {
         dataSource.apply(snapshot)
     }
     
+    private func annouceGameResult(_ result: String) {
+        let message: String
+        if result == "" {
+            message = "It's a draw!"
+        } else {
+            message = "\(result) won the game!"
+        }
+        let alert = UIAlertController(title: "Game Result!", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Restart", style: .default, handler: { [weak self] _ in
+            self?.restartGame()
+        }))
+        navigationController?.present(alert, animated: true)
+    }
+    
 }
 
 extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        didSelectItem(at: indexPath.row)
         return
     }
     

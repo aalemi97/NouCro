@@ -10,7 +10,7 @@ import Foundation
 enum Action: Hashable {
     
     case none(index: Int, image: String = "", color: String = "Black")
-    case cross(index: Int, image: String = "cross", color: String = "Pink")
+    case cross(index: Int, image: String = "xmark", color: String = "Pink")
     case nought(index: Int, image: String = "circle", color: String = "Purple")
     
     func getImage() -> String {

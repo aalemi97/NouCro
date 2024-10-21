@@ -14,14 +14,19 @@ GameEngine::GameEngine(int playersNumber, int gridSize) {
 }
 
 int GameEngine::addMove(vector<int> move) {
+    if (moves.size() == n * n)
+        return turn;
+    
     moves.push_back(move);
     setStateForMove(move, 1);
     int r = move[0];
     int c = move[1];
-    if (rows[turn][r] == n || cols[turn][c] == n || diag[turn][0] == n || diag[turn][1] == n) {
+    if (rows[turn][r] == n || cols[turn][c] == n || diag[turn][0] == n || diag[turn][1] == n)
         winner = turn;
-        return -1;
-    }
+    
+    if (moves.size() == n * n && winner < 0)
+        winner = -1;
+    
     if (turn < players - 1)
         turn += 1;
     else
@@ -65,7 +70,7 @@ void GameEngine::resetBoard() {
     cols = {};
     diag = {};
     moves = {};
-    winner = -1;
+    winner = -2;
     for (int i = 0; i < players; i++) {
         vector<int> temp = {};
         for (int j = 0; j < n; j++) {
