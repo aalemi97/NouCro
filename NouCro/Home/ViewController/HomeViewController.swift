@@ -54,6 +54,13 @@ class HomeViewController: UIViewController, Storyboarded {
         (viewModel as? HomeViewModel)?.createBoard()
     }
     
+    @IBAction func didTapUndoButton(_ sender: UIButton) {
+        let result = (viewModel as? HomeViewModel)?.revertAction()
+        if result == -1 {
+            sender.isEnabled = false
+        }
+    }
+    
     private func setupCollectionView() {
         collecionView.delegate = self
         let nib = UINib(nibName: ActionCollectionViewCell.reuseID, bundle: .main)

@@ -34,6 +34,16 @@ class HomeViewModel: ViewModelProvider {
         addAction(for: index)
     }
     
+    func revertAction() -> Int {
+        guard let index = gameController?.undo() else { return -1 }
+        if index == -1 {
+            return -1
+        }
+        actions[index] = .none(index: index)
+        view?.show(result: .success(actions))
+        return index
+    }
+    
     private func addAction(for index: Int) {
         let row: Int = index / gridSize
         let column: Int = index % gridSize

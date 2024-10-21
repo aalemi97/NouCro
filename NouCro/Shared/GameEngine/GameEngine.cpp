@@ -36,7 +36,7 @@ int GameEngine::addMove(vector<int> move) {
 
 int GameEngine::undo() {
     if (moves.size() < 1)
-        return turn;
+        return -1;
     if (turn > 0)
         turn -= 1;
     else
@@ -45,7 +45,9 @@ int GameEngine::undo() {
     vector<int> move = moves[index];
     moves.pop_back();
     setStateForMove(move, -1);
-    return turn;
+    int loc = move[0] * 3 + move[1];
+    winner = -2;
+    return loc;
 }
 
 void GameEngine::setStateForMove(vector<int> move, int unit) {

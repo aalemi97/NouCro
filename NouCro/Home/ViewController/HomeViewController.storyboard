@@ -27,6 +27,9 @@
                                         <color key="tintColor" name="PinkPurple"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="arrow.uturn.backward.circle" catalog="system" title="Undo"/>
+                                        <connections>
+                                            <action selector="didTapUndoButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="EzX-Sm-axe"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="x80-cU-y2Y">
                                         <rect key="frame" x="122.33333333333334" y="0.0" width="116.33333333333334" height="40"/>

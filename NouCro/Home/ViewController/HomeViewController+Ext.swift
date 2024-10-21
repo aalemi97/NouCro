@@ -14,6 +14,7 @@ extension HomeViewController: Viewable {
         case .success(let data):
             if let source = data as? [Action] {
                 setupCollectionView(source: source)
+                undoButton.isEnabled = !source.enumerated().filter({ $0.element != .none(index: $0.offset)}).isEmpty
             }
             if let source = data as? String {
                 annouceGameResult(source)
