@@ -9,7 +9,16 @@ import UIKit
 
 class HomeViewController: UIViewController, Storyboarded {
     
+    enum CollectionViewSection {
+        case main
+    }
+    
+    typealias DataSource = UICollectionViewDiffableDataSource<CollectionViewSection, Action>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<CollectionViewSection, Action>
+    
     private var viewModel: ViewModelProvider
+    
+    var dataSource: DataSource!
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var settingsButton: UIButton! {
@@ -20,7 +29,7 @@ class HomeViewController: UIViewController, Storyboarded {
     @IBOutlet weak var undoButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
-    @IBOutlet weak var colleccionView: UICollectionView!
+    @IBOutlet weak var collecionView: UICollectionView!
     
     required init?(coder: NSCoder, viewModel: ViewModelProvider) {
         self.viewModel = viewModel
@@ -33,6 +42,38 @@ class HomeViewController: UIViewController, Storyboarded {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupCollectionView()
+        viewModel.viewDidLoad(self)
+    }
+    
+    private func setupCollectionView() {
+        collecionView.delegate = self
+        let nib = UINib(nibName: ActionCollectionViewCell.reuseID, bundle: .main)
+        collecionView.register(nib, forCellWithReuseIdentifier: ActionCollectionViewCell.reuseID)
+        let gridSize = (viewModel as? HomeViewModel)?.gridSize ?? 3
+        collecionView.collectionViewLayout = createLayout(forGridSize: gridSize)
+    }
+    
+    private func createLayout(forGridSize n: Int) -> UICollectionViewCompositionalLayout {
+        let size: CGFloat = 1 / CGFloat(n)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(size), heightDimension: .fractionalHeight(1))
+        let itemLayout = NSCollectionLayoutItem(layoutSize: itemSize)
+        itemLayout.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
+        let groupSize: NSCollectionLayoutSize
+        if ((collecionView.frame.width) / CGFloat(n) > 44) {
+            groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(size))
+        } else {
+            groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44))
+        }
+        let groupLayout: NSCollectionLayoutGroup
+        if #available(iOS 16.0, *) {
+            groupLayout = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: itemLayout, count: n)
+        } else {
+            groupLayout = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: itemLayout, count: n)
+        }
+        groupLayout.contentInsets = .init(top: 5, leading: 0, bottom: 5, trailing: 0)
+        let sectionLayout = NSCollectionLayoutSection(group: groupLayout)
+        return UICollectionViewCompositionalLayout(section: sectionLayout)
     }
 
 }

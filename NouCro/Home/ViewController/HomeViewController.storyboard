@@ -111,7 +111,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="colleccionView" destination="h2b-Ca-Xra" id="b9T-lp-z4m"/>
+                        <outlet property="collecionView" destination="h2b-Ca-Xra" id="XRq-Jx-Jwk"/>
                         <outlet property="nameLabel" destination="ndx-rp-gZV" id="r9L-S1-h5R"/>
                         <outlet property="resetButton" destination="Ge7-NM-6qy" id="kAz-bS-5Ow"/>
                         <outlet property="settingsButton" destination="ZnK-Ho-Cjq" id="EW8-ms-bim"/>
