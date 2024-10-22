@@ -45,7 +45,7 @@ int GameEngine::undo() {
     vector<int> move = moves[index];
     moves.pop_back();
     setStateForMove(move, -1);
-    int loc = move[0] * 3 + move[1];
+    int loc = move[0] * n + move[1];
     winner = -2;
     return loc;
 }
