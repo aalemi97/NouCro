@@ -27,7 +27,6 @@ class HomeViewController: UIViewController, Storyboarded {
         }
     }
     @IBOutlet weak var undoButton: UIButton!
-    @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var collecionView: UICollectionView!
     
@@ -59,6 +58,10 @@ class HomeViewController: UIViewController, Storyboarded {
         if result == -1 {
             sender.isEnabled = false
         }
+    }
+    
+    @IBAction func didTapResetButton(_ sender: UIButton) {
+        (viewModel as? HomeViewModel)?.createBoard()
     }
     
     private func setupCollectionView() {

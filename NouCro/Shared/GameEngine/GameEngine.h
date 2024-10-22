@@ -26,12 +26,12 @@ private:
     vector<vector<int>> diag;
     vector<vector<int>> moves;
     void setStateForMove(vector<int> move, int unit);
+    void resetBoard();
 public:
     GameEngine(int playersNumber, int gridSize);
     int addMove(vector<int> move);
     int undo();
     int getWinner();
-    void resetBoard();
 };
 
 #endif /* GameEngine_hpp */

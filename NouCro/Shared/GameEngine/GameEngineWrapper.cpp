@@ -33,10 +33,6 @@ int GameEngine_getWinner(GameEngineWrapper* wrapper) {
     return winner;
 };
 
-void GameEngine_resetBoard(GameEngineWrapper* wrapper) {
-    wrapper->gameEngine->resetBoard();
-};
-
 void GameEngine_deinit(GameEngineWrapper* wrapper) {
     delete wrapper->gameEngine;
     delete wrapper;

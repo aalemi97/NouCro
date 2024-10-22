@@ -21,6 +21,7 @@ class HomeViewModel: ViewModelProvider {
     }
     
     func createBoard() {
+        gameController = nil
         gameController = GameEngineController(playersNumber: Int32(playersNumber), gridSize: Int32(gridSize))
         actions = []
         for i in 0..<gridSize * gridSize {

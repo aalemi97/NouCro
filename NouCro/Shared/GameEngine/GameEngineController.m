@@ -39,13 +39,13 @@
     return winner;
 }
 
-- (void)resetBoard { 
-    GameEngine_resetBoard(self.wrapper);
-}
-
 - (NSInteger)undo { 
     int turn = GameEngine_undo(self.wrapper);
     return turn;
+}
+
+- (void)dealloc {
+    GameEngine_deinit(self.wrapper);
 }
 
 @end
