@@ -9,6 +9,14 @@ import UIKit
 
 class SettingsViewController: UIViewController, Storyboarded {
     
+    enum TableViewSection {
+        case main
+        case players
+    }
+    
+    typealias DataSource = UITableViewDiffableDataSource<TableViewSection, SettingsModel>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<TableViewSection, SettingsModel>
+    
     @IBOutlet weak var contentView: UIView! {
         didSet {
             contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -24,6 +32,7 @@ class SettingsViewController: UIViewController, Storyboarded {
     @IBOutlet weak var tableView: UITableView!
     
     private let viewModel: ViewModelProvider
+    var dataSource: DataSource!
     
     required init?(coder: NSCoder, viewModel: any ViewModelProvider) {
         self.viewModel = viewModel
@@ -37,6 +46,11 @@ class SettingsViewController: UIViewController, Storyboarded {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.viewDidLoad(self)
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
     }
     
     @IBAction func didTapCloseButton(_ sender: UIButton) {
