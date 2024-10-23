@@ -21,7 +21,7 @@ class SettingsViewController: UIViewController, Storyboarded {
     
     override var title: String? {
         get {
-            return "Settings"
+            "Settings"
         }
         set {}
     }
@@ -43,6 +43,7 @@ class SettingsViewController: UIViewController, Storyboarded {
         super.viewDidLoad()
         viewModel.viewDidLoad(self)
         setupTableView()
+        navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton))
     }
     
     private func setupTableView() {
@@ -50,6 +51,11 @@ class SettingsViewController: UIViewController, Storyboarded {
         let nib = UINib(nibName: MainSettingTableViewCell.reuseID, bundle: .main)
         tableView.register(nib, forCellReuseIdentifier: MainSettingTableViewCell.reuseID)
         tableView.rowHeight = 44
+    }
+    
+    @objc
+    func didTapDoneButton(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 
 }
