@@ -17,19 +17,14 @@ class SettingsViewController: UIViewController, Storyboarded {
     typealias DataSource = UITableViewDiffableDataSource<TableViewSection, MainSettingModel>
     typealias SnapShot = NSDiffableDataSourceSnapshot<TableViewSection, MainSettingModel>
     
-    @IBOutlet weak var contentView: UIView! {
-        didSet {
-            contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            contentView.layer.cornerRadius = 15
-        }
-    }
-    @IBOutlet weak var closeButton: UIButton! {
-        didSet {
-            closeButton.setTitle("", for: .normal)
-        }
-    }
-    
     @IBOutlet weak var tableView: UITableView!
+    
+    override var title: String? {
+        get {
+            return "Settings"
+        }
+        set {}
+    }
     
     private let viewModel: ViewModelProvider
     var dataSource: DataSource!
@@ -55,10 +50,6 @@ class SettingsViewController: UIViewController, Storyboarded {
         let nib = UINib(nibName: MainSettingTableViewCell.reuseID, bundle: .main)
         tableView.register(nib, forCellReuseIdentifier: MainSettingTableViewCell.reuseID)
         tableView.rowHeight = 44
-    }
-    
-    @IBAction func didTapCloseButton(_ sender: UIButton) {
-        dismiss(animated: true)
     }
 
 }
