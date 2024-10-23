@@ -14,8 +14,8 @@ class SettingsViewController: UIViewController, Storyboarded {
         case players
     }
     
-    typealias DataSource = UITableViewDiffableDataSource<TableViewSection, SettingsModel>
-    typealias SnapShot = NSDiffableDataSourceSnapshot<TableViewSection, SettingsModel>
+    typealias DataSource = UITableViewDiffableDataSource<TableViewSection, MainSettingModel>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<TableViewSection, MainSettingModel>
     
     @IBOutlet weak var contentView: UIView! {
         didSet {
@@ -47,10 +47,14 @@ class SettingsViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.viewDidLoad(self)
+        setupTableView()
     }
     
     private func setupTableView() {
         tableView.delegate = self
+        let nib = UINib(nibName: MainSettingTableViewCell.reuseID, bundle: .main)
+        tableView.register(nib, forCellReuseIdentifier: MainSettingTableViewCell.reuseID)
+        tableView.rowHeight = 44
     }
     
     @IBAction func didTapCloseButton(_ sender: UIButton) {

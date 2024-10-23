@@ -9,10 +9,17 @@ import UIKit
 
 extension SettingsViewController: Viewable {
     func show(result: Result<Any, any Error>) {
+        switch result {
+        case .success(let data):
+            guard let source = data as? [MainSettingModel] else { return }
+            setupTableView(source)
+        case .failure(let error):
+            print(error)
+        }
         return
     }
     
-    private func setupTableView(_ source: [SettingsModel]) {
+    private func setupTableView(_ source: [MainSettingModel]) {
         self.dataSource = createDataSource()
         var snapshot = SnapShot()
         snapshot.appendSections([.main])
@@ -24,7 +31,8 @@ extension SettingsViewController: Viewable {
 extension SettingsViewController: UITableViewDelegate {
     fileprivate func createDataSource() -> DataSource {
         let dataSource = DataSource(tableView: tableView, cellProvider: { tableView, indexPath, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: MainSettingTableViewCell.reuseID, for: indexPath) as? MainSettingTableViewCell
+            cell?.update(item)
             return cell
         })
         return dataSource

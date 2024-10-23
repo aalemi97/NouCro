@@ -20,5 +20,14 @@ class SettingsViewModel: ViewModelProvider {
     
     func viewDidLoad(_ view: any Viewable) {
         self.view = view
+        generateSettingsData()
+    }
+    
+    func generateSettingsData() {
+        let data = [
+            MainSettingModel(title: "Grid Size", index: 3, minValue: 3, maxValue: 10),
+            MainSettingModel(title: "Players Number", index: 2, minValue: 2, maxValue: 9)
+        ]
+        view?.show(result: .success(data))
     }
 }
