@@ -7,15 +7,15 @@
 
 import UIKit
 import CoreData
+import Combine
 
 class PersistenceManager: PersistenceManagerProvider {
     
     static let shared: PersistenceManagerProvider = PersistenceManager()
-    
-    private let context: NSManagedObjectContext
+    let context: NSManagedObjectContext
     
     private init() {
-        let container = NSPersistentContainer(name: "NouCroModel")
+        let container = NSPersistentContainer(name: "NouCro")
         container.loadPersistentStores { (storeDescription, error) in
             if let error {
                 fatalError(error.localizedDescription)
@@ -24,29 +24,62 @@ class PersistenceManager: PersistenceManagerProvider {
         self.context = container.viewContext
     }
     
-    func get<DataType>(onCompletion: @escaping (Result<DataType, any Error>) -> Void) where DataType : Storable {
-        return
+    func get<DataType>() -> AnyPublisher<[DataType], NCError> where DataType : Storable {
+        return Future<[DataType], NCError> { [weak self] promise in
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: DataType.descriptor)
+            do {
+                if let result = try self?.context.fetch(request) as? [DataType] {
+                    promise(.success(result))
+                } else {
+                    promise(.failure(.dataBaseError(message: "Could not find specified type, \(DataType.descriptor) in database.")))
+                }
+            } catch {
+                promise(.failure(.dataBaseError(message: error.localizedDescription)))
+            }
+        }.eraseToAnyPublisher()
     }
     
-    func getAll<DataType>(onCompletion: @escaping (Result<[DataType], any Error>) -> Void) where DataType : Storable {
-        return
+    func save() -> AnyPublisher<Bool, NCError> {
+        return Future<Bool, NCError> { [weak self] promise in
+            guard self?.context.hasChanges ?? false else {
+                promise(.success(true))
+                return
+            }
+            do {
+                try self?.context.save()
+                promise(.success(true))
+            } catch {
+                promise(.failure(.dataBaseError(message: error.localizedDescription)))
+            }
+        }.eraseToAnyPublisher()
     }
     
-    func save<DataType>(data: DataType) -> Bool where DataType : Storable {
-        return false
+    func delete<DataType>(data: DataType) -> AnyPublisher<Bool, NCError> where DataType : Storable {
+        return Future<Bool, NCError> { [weak self] promise in
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: DataType.descriptor)
+            request.predicate = NSPredicate(format: "id = %@", data.id)
+            do {
+                if let result = try self?.context.fetch(request).first as? NSManagedObject {
+                    self?.context.delete(result)
+                }
+                promise(.success(true))
+            } catch {
+                promise(.failure(.dataBaseError(message: error.localizedDescription)))
+            }
+        }.eraseToAnyPublisher()
     }
     
-    func delete<DataType>(data: DataType) -> Bool where DataType : Storable {
-        return false
+    func deleteDatabase(for entity: String) -> AnyPublisher<Bool, NCError> {
+        return Future<Bool, NCError> { [weak self] promise in
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+            let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+            do {
+                try self?.context.execute(batchDeleteRequest)
+                promise(.success(true))
+            } catch {
+                promise(.failure(.dataBaseError(message: error.localizedDescription)))
+            }
+        }.eraseToAnyPublisher()
+        
     }
-    
-    func update<DataType>(data: DataType) -> Bool where DataType : Storable {
-        return false
-    }
-    
-    func deleteDataBase() -> Bool {
-        return false
-    }
-    
-    
 }

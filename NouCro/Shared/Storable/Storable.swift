@@ -6,7 +6,15 @@
 //
 
 import Foundation
+import CoreData
 
-protocol Storable: Hashable {
+protocol Storable: Hashable, NSManagedObject {
+    static var descriptor: String { get }
     var id: String { get }
+}
+
+extension Storable {
+    static var descriptor: String {
+        return String(describing: Self.self)
+    }
 }
