@@ -25,8 +25,7 @@ public class Player: NSManagedObject {
     }
 }
 
-extension Player: Storable {
-    
+extension Player: Storable, Identifiable {
     public var id: String {
         uuid.uuidString
     }
