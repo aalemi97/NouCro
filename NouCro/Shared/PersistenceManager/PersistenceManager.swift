@@ -13,6 +13,7 @@ class PersistenceManager: PersistenceManagerProvider {
     
     static let shared: PersistenceManagerProvider = PersistenceManager()
     let context: NSManagedObjectContext
+    private var cancellables: Set<AnyCancellable>
     
     private init() {
         let container = NSPersistentContainer(name: "NouCro")
@@ -22,13 +23,14 @@ class PersistenceManager: PersistenceManagerProvider {
             }
         }
         self.context = container.viewContext
+        self.cancellables = []
     }
     
     func get<DataType>() -> AnyPublisher<[DataType], NCError> where DataType : Storable {
         return Future<[DataType], NCError> { [weak self] promise in
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: DataType.descriptor)
             do {
-                if let result = try self?.context.fetch(request) as? [DataType] {
+                if let result = try self?.context.fetch(request) as? [DataType], result.count > 0 {
                     promise(.success(result))
                 } else {
                     promise(.failure(.dataBaseError(message: "Could not find specified type, \(DataType.descriptor) in database.")))
@@ -56,13 +58,26 @@ class PersistenceManager: PersistenceManagerProvider {
     
     func delete<DataType>(data: DataType) -> AnyPublisher<Bool, NCError> where DataType : Storable {
         return Future<Bool, NCError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(NCError.dataBaseError(message: "Found null for shared instance.")))
+                return
+            }
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: DataType.descriptor)
             request.predicate = NSPredicate(format: "id = %@", data.id)
             do {
-                if let result = try self?.context.fetch(request).first as? NSManagedObject {
-                    self?.context.delete(result)
+                if let result = try self.context.fetch(request).first as? NSManagedObject {
+                    self.context.delete(result)
                 }
-                promise(.success(true))
+                self.save().sink(receiveCompletion: { result in
+                    switch result {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        promise(.failure(error))
+                    }
+                }, receiveValue: { value in
+                    promise(.success(value))
+                }).store(in: &self.cancellables)
             } catch {
                 promise(.failure(.dataBaseError(message: error.localizedDescription)))
             }
@@ -71,11 +86,24 @@ class PersistenceManager: PersistenceManagerProvider {
     
     func deleteDatabase(for entity: String) -> AnyPublisher<Bool, NCError> {
         return Future<Bool, NCError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(NCError.dataBaseError(message: "Found null for shared instance.")))
+                return
+            }
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
             let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: request)
             do {
-                try self?.context.execute(batchDeleteRequest)
-                promise(.success(true))
+                try self.context.execute(batchDeleteRequest)
+                self.save().sink(receiveCompletion: { result in
+                    switch result {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        promise(.failure(error))
+                    }
+                }, receiveValue: { value in
+                    promise(.success(value))
+                }).store(in: &self.cancellables)
             } catch {
                 promise(.failure(.dataBaseError(message: error.localizedDescription)))
             }
