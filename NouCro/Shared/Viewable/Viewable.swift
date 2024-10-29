@@ -8,5 +8,5 @@
 import Foundation
 
 protocol Viewable: AnyObject {
-    func show(result: Result<Any, Error>)
+    func show(result: Result<Any, NCError>)
 }

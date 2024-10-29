@@ -8,7 +8,7 @@
 import UIKit
 
 extension SettingsViewController: Viewable {
-    func show(result: Result<Any, any Error>) {
+    func show(result: Result<Any, NCError>) {
         switch result {
         case .success(let data):
             guard let source = data as? [MainSettingModel] else { return }
