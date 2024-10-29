@@ -20,12 +20,10 @@ class GameParametersManager: GameParametersProvider {
             case .finished:
                 break
             case .failure(_):
-                print("Default values")
                 let players = self?.getDefaultPlayers() ?? []
                 onCompletion(players)
             }
         } receiveValue: { (players: [Player]) in
-            print("Previous values")
             onCompletion(players)
         }.store(in: &cancellables)
         
@@ -37,12 +35,10 @@ class GameParametersManager: GameParametersProvider {
             case .finished:
                 break
             case .failure(_):
-                print("Default values")
                 let size = self?.getDefaultGridSize()
                 onCompletion(Int(size?.size ?? 0))
             }
         } receiveValue: { (size: [GridSize]) in
-            print("Previous values")
             onCompletion(Int(size.first?.size ?? 0))
         }.store(in: &cancellables)
         
