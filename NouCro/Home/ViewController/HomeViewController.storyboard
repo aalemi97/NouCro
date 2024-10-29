@@ -67,6 +67,9 @@
                                 <color key="tintColor" name="PinkPurple"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="gearshape.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="didTapSettingsButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Mmt-fn-YaI"/>
+                                </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="h2b-Ca-Xra">
                                 <rect key="frame" x="16" y="169.33333333333331" width="361" height="640.66666666666674"/>

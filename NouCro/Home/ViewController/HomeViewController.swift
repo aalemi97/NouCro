@@ -30,6 +30,10 @@ class HomeViewController: UIViewController, Storyboarded {
     @IBOutlet weak var undoButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var collecionView: UICollectionView!
+    private var settingsButtonTapSubject: PassthroughSubject<Bool, Never> = .init()
+    var settingsButtonTapPublisher: AnyPublisher<Bool, Never> {
+        settingsButtonTapSubject.eraseToAnyPublisher()
+    }
     private var cancellables: Set<AnyCancellable> = []
     
     required init?(coder: NSCoder, viewModel: ViewModelProvider) {
@@ -65,6 +69,10 @@ class HomeViewController: UIViewController, Storyboarded {
     
     @IBAction func didTapResetButton(_ sender: UIButton) {
         (viewModel as? HomeViewModel)?.setupGameEngine()
+    }
+    
+    @IBAction func didTapSettingsButton(_ sender: UIButton) {
+        settingsButtonTapSubject.send(true)
     }
     
     private func setupNameLabel() {
