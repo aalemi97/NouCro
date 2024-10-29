@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class HomeViewController: UIViewController, Storyboarded {
     
@@ -29,6 +30,7 @@ class HomeViewController: UIViewController, Storyboarded {
     @IBOutlet weak var undoButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var collecionView: UICollectionView!
+    private var cancellables: Set<AnyCancellable> = []
     
     required init?(coder: NSCoder, viewModel: ViewModelProvider) {
         self.viewModel = viewModel
@@ -42,6 +44,7 @@ class HomeViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        setupNameLabel()
         viewModel.viewDidLoad(self)
     }
     
@@ -50,7 +53,7 @@ class HomeViewController: UIViewController, Storyboarded {
     }
     
     func restartGame() {
-        (viewModel as? HomeViewModel)?.createBoard()
+        (viewModel as? HomeViewModel)?.setupGameEngine()
     }
     
     @IBAction func didTapUndoButton(_ sender: UIButton) {
@@ -61,9 +64,14 @@ class HomeViewController: UIViewController, Storyboarded {
     }
     
     @IBAction func didTapResetButton(_ sender: UIButton) {
-        (viewModel as? HomeViewModel)?.createBoard()
+        (viewModel as? HomeViewModel)?.setupGameEngine()
     }
     
+    private func setupNameLabel() {
+        (viewModel as? HomeViewModel)?.currentPlayerPublisher.sink(receiveValue: { [weak self] player in
+            self?.nameLabel.text = player.name
+        }).store(in: &cancellables)
+    }
     private func setupCollectionView() {
         collecionView.delegate = self
         let nib = UINib(nibName: ActionCollectionViewCell.reuseID, bundle: .main)
