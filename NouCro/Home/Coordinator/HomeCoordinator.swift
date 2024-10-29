@@ -29,6 +29,8 @@ class HomeCoordinator: Coordinator {
     }
     
     func pushSettingsViewController() {
-        
+        let viewModel = SettingsViewModel()
+        let viewController = SettingsViewController.instantiate(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: true)
     }
 }
