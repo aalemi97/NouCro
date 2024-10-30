@@ -79,14 +79,9 @@ class HomeViewModel: ViewModelProvider {
         let row: Int = index / gridSize
         let column: Int = index % gridSize
         guard let turn = gameController?.addMove([NSNumber(value: row), NSNumber(value: column)]) else { return }
-        if (turn - 1) % 2 == 0 {
-            actions[index] = .cross(index: index)
-        } else {
-            actions[index] = .nought(index: index)
-        }
+        actions[index] = .play(index: index, player: players[self.turn])
         view?.show(result: .success(actions))
         self.turn = turn
-        currentPlayer.send(players[turn])
         gameDidEnd()
     }
     
