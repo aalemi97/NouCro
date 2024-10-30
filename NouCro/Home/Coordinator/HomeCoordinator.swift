@@ -23,7 +23,6 @@ class HomeCoordinator: Coordinator {
         let viewController = HomeViewController.instantiate(viewModel: viewModel)
         viewController.settingsButtonTapPublisher.sink { [weak self] value in
             self?.pushSettingsViewController()
-            print("push")
         }.store(in: &cancellables)
         navigationController.pushViewController(viewController, animated: true)
     }
