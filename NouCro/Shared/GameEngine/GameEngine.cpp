@@ -50,6 +50,14 @@ int GameEngine::undo() {
     return loc;
 }
 
+int GameEngine::getWinner() {
+    return winner;
+}
+
+int GameEngine::getTurn() {
+    return turn;
+}
+
 void GameEngine::setStateForMove(vector<int> move, int unit) {
     int r = move[0];
     int c = move[1];
@@ -60,10 +68,6 @@ void GameEngine::setStateForMove(vector<int> move, int unit) {
     if (r + c == n - 1)
         diag[turn][1] += unit;
     return;
-}
-
-int GameEngine::getWinner() {
-    return winner;
 }
 
 void GameEngine::resetBoard() {

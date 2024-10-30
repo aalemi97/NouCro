@@ -18,9 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSInteger)addMove:(NSArray<NSNumber *> *)move;
 
+- (NSInteger)undo;
+
 - (NSInteger)getWinner;
 
-- (NSInteger)undo;
+- (NSInteger)getTurn;
 
 @end
 

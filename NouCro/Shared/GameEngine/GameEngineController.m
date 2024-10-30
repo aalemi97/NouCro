@@ -34,13 +34,18 @@
     }
 }
 
+- (NSInteger)undo {
+    int turn = GameEngine_undo(self.wrapper);
+    return turn;
+}
+
 - (NSInteger)getWinner {
     int winner = GameEngine_getWinner(self.wrapper);
     return winner;
 }
 
-- (NSInteger)undo { 
-    int turn = GameEngine_undo(self.wrapper);
+- (NSInteger)getTurn {
+    int turn = GameEngine_getTurn(self.wrapper);
     return turn;
 }
 

@@ -33,6 +33,11 @@ int GameEngine_getWinner(GameEngineWrapper* wrapper) {
     return winner;
 };
 
+int GameEngine_getTurn(GameEngineWrapper* wrapper) {
+    int turn = wrapper->gameEngine->getTurn();
+    return turn;
+}
+
 void GameEngine_deinit(GameEngineWrapper* wrapper) {
     delete wrapper->gameEngine;
     delete wrapper;

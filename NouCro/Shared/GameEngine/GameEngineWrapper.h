@@ -18,6 +18,7 @@ GameEngineWrapper* GameEngineWrapper_init(int playersNumber, int gridSize);
 int GameEngine_addMove(GameEngineWrapper* wrapper, int move[2]);
 int GameEngine_undo(GameEngineWrapper* wrapper);
 int GameEngine_getWinner(GameEngineWrapper* wrapper);
+int GameEngine_getTurn(GameEngineWrapper* wrapper);
 void GameEngine_deinit(GameEngineWrapper* wrapper);
 
 #ifdef __cplusplus

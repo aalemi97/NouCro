@@ -53,11 +53,12 @@ class HomeViewModel: ViewModelProvider {
     }
     
     func revertAction() -> Int {
-        guard let index = gameController?.undo() else { return -1 }
+        guard let gameController = gameController else { return -1 }
+        let index = gameController.undo()
         if index == -1 {
             return -1
         }
-        turn = turn > 0 ? turn - 1 : players.count - 1
+        turn = gameController.getTurn()
         actions[index] = .none(index: index)
         view?.show(result: .success(actions))
         return index

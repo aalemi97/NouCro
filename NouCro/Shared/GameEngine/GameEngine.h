@@ -32,6 +32,7 @@ public:
     int addMove(vector<int> move);
     int undo();
     int getWinner();
+    int getTurn();
 };
 
 #endif /* GameEngine_hpp */
