@@ -7,9 +7,15 @@
 
 import Foundation
 
-struct MainSettingModel: Hashable {
+class MainSettingModel: NSObject {
     let title: String
     let index: Int
     let minValue: Int
     let maxValue: Int
+    init(title: String, index: Int, minValue: Int, maxValue: Int) {
+        self.title = title
+        self.index = index
+        self.minValue = minValue
+        self.maxValue = maxValue
+    }
 }

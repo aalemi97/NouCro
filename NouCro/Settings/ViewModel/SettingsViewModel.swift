@@ -41,5 +41,6 @@ class SettingsViewModel: ViewModelProvider {
             MainSettingModel(title: "Players Number", index: players.count, minValue: 2, maxValue: 9)
         ]
         view?.show(result: .success(data))
+        view?.show(result: .success(players))
     }
 }

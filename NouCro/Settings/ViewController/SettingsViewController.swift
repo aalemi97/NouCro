@@ -9,13 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController, Storyboarded {
     
-    enum TableViewSection {
-        case main
-        case players
-    }
-    
-    typealias DataSource = UITableViewDiffableDataSource<TableViewSection, MainSettingModel>
-    typealias SnapShot = NSDiffableDataSourceSnapshot<TableViewSection, MainSettingModel>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<SettingsTableViewSection, SettingsModel>
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -27,7 +21,7 @@ class SettingsViewController: UIViewController, Storyboarded {
     }
     
     private let viewModel: ViewModelProvider
-    var dataSource: DataSource!
+    var dataSource: SettingsDataSource!
     
     required init?(coder: NSCoder, viewModel: any ViewModelProvider) {
         self.viewModel = viewModel
@@ -51,6 +45,7 @@ class SettingsViewController: UIViewController, Storyboarded {
         let nib = UINib(nibName: MainSettingTableViewCell.reuseID, bundle: .main)
         tableView.register(nib, forCellReuseIdentifier: MainSettingTableViewCell.reuseID)
         tableView.rowHeight = 44
+        tableView.sectionHeaderHeight = 44
     }
     
     @objc
