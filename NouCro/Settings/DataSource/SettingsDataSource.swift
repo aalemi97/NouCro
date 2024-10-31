@@ -8,24 +8,24 @@
 import UIKit
 
 enum SettingsTableViewSection: String, CaseIterable {
-    case main = "Main"
+    case primaries = "Primary Settings"
     case players = "Players"
 }
 
 enum SettingsModel: Hashable {
-    case main(model: MainSettingModel)
-    case player(model: Player)
+    case primary(viewModel: PrimarySettingsCellViewModel)
+    case player(viewModel: Player)
 }
 
 class SettingsDataSource: UITableViewDiffableDataSource<SettingsTableViewSection, SettingsModel> {
     init(tableView: UITableView) {
         super.init(tableView: tableView) { tableView, indexPath, item in
             switch item {
-            case .main(model: let model):
-                let cell = tableView.dequeueReusableCell(withIdentifier: MainSettingTableViewCell.reuseID, for: indexPath) as? MainSettingTableViewCell
-                cell?.update(model)
+            case let .primary(viewModel):
+                let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reuseID, for: indexPath)
+                (cell as? ReusableCell)?.update(with: viewModel)
                 return cell
-            case .player(model: let model):
+            case let .player(viewModel):
                 return UITableViewCell()
             }
         }

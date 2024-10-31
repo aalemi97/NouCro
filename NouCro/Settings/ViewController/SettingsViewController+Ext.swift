@@ -11,12 +11,9 @@ extension SettingsViewController: Viewable {
     func show(result: Result<Any, NCError>) {
         switch result {
         case .success(let data):
-            if let source = data as? [MainSettingModel] {
-                setupTableView(source)
+            if let section = data as? [PrimarySettingsCellViewModel] {
+                setupTableView(section)
                 break
-            }
-            if let source = data as? [Player] {
-                setupTableView(source)
             }
         case .failure(let error):
             print(error)
@@ -24,18 +21,11 @@ extension SettingsViewController: Viewable {
         return
     }
     
-    private func setupTableView(_ source: [MainSettingModel]) {
+    private func setupTableView(_ section: [PrimarySettingsCellViewModel]) {
         self.dataSource = createDataSource()
         var snapshot = SnapShot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(source.map({ .main(model: $0) }), toSection: .main)
-        dataSource.apply(snapshot)
-    }
-    
-    private func setupTableView(_ source: [Player]) {
-        var snapshot = dataSource.snapshot()
-        snapshot.appendSections([.players])
-        snapshot.appendItems(source.map({ .player(model: $0) }), toSection: .players)
+        snapshot.appendSections([.primaries])
+        snapshot.appendItems(section.map({ .primary(viewModel: $0) }), toSection: .primaries)
         dataSource.apply(snapshot)
     }
 }

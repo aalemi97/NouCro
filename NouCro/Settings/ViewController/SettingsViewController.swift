@@ -42,8 +42,8 @@ class SettingsViewController: UIViewController, Storyboarded {
     
     private func setupTableView() {
         tableView.delegate = self
-        let nib = UINib(nibName: MainSettingTableViewCell.reuseID, bundle: .main)
-        tableView.register(nib, forCellReuseIdentifier: MainSettingTableViewCell.reuseID)
+        let nib = UINib(nibName: PrimarySettingTableViewCell.reuseID, bundle: .main)
+        tableView.register(nib, forCellReuseIdentifier: PrimarySettingTableViewCell.reuseID)
         tableView.rowHeight = 44
         tableView.sectionHeaderHeight = 44
     }

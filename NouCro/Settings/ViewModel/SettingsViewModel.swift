@@ -36,11 +36,11 @@ class SettingsViewModel: ViewModelProvider {
     }
     
     private func generateSettingsData() {
-        let data = [
-            MainSettingModel(title: "Grid Size", index: gridSize, minValue: 3, maxValue: 10),
-            MainSettingModel(title: "Players Number", index: players.count, minValue: 2, maxValue: 9)
+        let primarySettings = [
+            PrimarySettingModel(title: "Grid Size", value: gridSize, minValue: 3, maxValue: 10),
+            PrimarySettingModel(title: "Players Number", value: players.count, minValue: 2, maxValue: 9)
         ]
-        view?.show(result: .success(data))
-        view?.show(result: .success(players))
+        let primarySection = primarySettings.map({ PrimarySettingsCellViewModel(model: $0, cellClass: PrimarySettingTableViewCell.self , reuseID: PrimarySettingTableViewCell.reuseID) })
+        view?.show(result: .success(primarySection))
     }
 }
