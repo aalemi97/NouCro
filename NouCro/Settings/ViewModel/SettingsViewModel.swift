@@ -40,7 +40,9 @@ class SettingsViewModel: ViewModelProvider {
             PrimarySettingModel(title: "Grid Size", value: gridSize, minValue: 3, maxValue: 10),
             PrimarySettingModel(title: "Players Number", value: players.count, minValue: 2, maxValue: 9)
         ]
-        let primarySection = primarySettings.map({ PrimarySettingsCellViewModel(model: $0, cellClass: PrimarySettingTableViewCell.self , reuseID: PrimarySettingTableViewCell.reuseID) })
-        view?.show(result: .success(primarySection))
+        let primaries = primarySettings.map({ PrimarySettingsCellViewModel(model: $0, cell: PrimarySettingTableViewCell.self) })
+        view?.show(result: .success(primaries))
+        let playersSection = players.map({ PlayerCellViewModel(model: $0, cell: PlayerTableViewCell.self) })
+        view?.show(result: .success(playersSection))
     }
 }

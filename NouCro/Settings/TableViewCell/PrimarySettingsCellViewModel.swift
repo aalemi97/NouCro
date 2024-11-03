@@ -11,12 +11,18 @@ class PrimarySettingsCellViewModel: NSObject, Reusable {
     
     typealias Model = PrimarySettingModel
     var model: Model
-    var cellClass: AnyClass
-    var reuseID: String
+    var cell: ReusableCell.Type
     
-    init(model: Model, cellClass: AnyClass, reuseID: String) {
+    required init(model: Model, cell: ReusableCell.Type) {
         self.model = model
-        self.cellClass = cellClass
-        self.reuseID = reuseID
+        self.cell = cell
+    }
+    
+    func getModel() -> PrimarySettingModel {
+        return model
+    }
+    
+    func getReuseID() -> String {
+        return cell.reuseID
     }
 }

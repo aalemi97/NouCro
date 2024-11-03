@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ReusableCell {
+protocol ReusableCell: AnyObject {
     static var reuseID: String { get }
     func update(with viewModel: any Reusable)
 }

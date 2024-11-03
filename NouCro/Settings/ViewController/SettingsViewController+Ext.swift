@@ -15,6 +15,9 @@ extension SettingsViewController: Viewable {
                 setupTableView(section)
                 break
             }
+            if let section = data as? [PlayerCellViewModel] {
+                setupTableView(section)
+            }
         case .failure(let error):
             print(error)
         }
@@ -28,6 +31,12 @@ extension SettingsViewController: Viewable {
         snapshot.appendItems(section.map({ .primary(viewModel: $0) }), toSection: .primaries)
         dataSource.apply(snapshot)
     }
+    private func setupTableView(_ section: [PlayerCellViewModel]) {
+        var snapshot = dataSource.snapshot()
+        snapshot.appendSections([.players])
+        snapshot.appendItems(section.map({ .player(viewModel: $0) }), toSection: .players)
+        dataSource.apply(snapshot)
+    }
 }
 
 extension SettingsViewController: UITableViewDelegate {
@@ -38,5 +47,16 @@ extension SettingsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0:
+            return 55
+        case 1:
+            return 66
+        default:
+            return 44
+        }
     }
 }

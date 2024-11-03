@@ -14,7 +14,7 @@ enum SettingsTableViewSection: String, CaseIterable {
 
 enum SettingsModel: Hashable {
     case primary(viewModel: PrimarySettingsCellViewModel)
-    case player(viewModel: Player)
+    case player(viewModel: PlayerCellViewModel)
 }
 
 class SettingsDataSource: UITableViewDiffableDataSource<SettingsTableViewSection, SettingsModel> {
@@ -22,11 +22,13 @@ class SettingsDataSource: UITableViewDiffableDataSource<SettingsTableViewSection
         super.init(tableView: tableView) { tableView, indexPath, item in
             switch item {
             case let .primary(viewModel):
-                let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reuseID, for: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.getReuseID(), for: indexPath)
                 (cell as? ReusableCell)?.update(with: viewModel)
                 return cell
             case let .player(viewModel):
-                return UITableViewCell()
+                let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.getReuseID(), for: indexPath)
+                (cell as? ReusableCell)?.update(with: viewModel)
+                return cell
             }
         }
     }

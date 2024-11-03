@@ -38,19 +38,27 @@ class SettingsViewController: UIViewController, Storyboarded {
         viewModel.viewDidLoad(self)
         setupTableView()
         navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tap)
     }
     
     private func setupTableView() {
         tableView.delegate = self
-        let nib = UINib(nibName: PrimarySettingTableViewCell.reuseID, bundle: .main)
-        tableView.register(nib, forCellReuseIdentifier: PrimarySettingTableViewCell.reuseID)
-        tableView.rowHeight = 44
+        let primaryCellNib = UINib(nibName: PrimarySettingTableViewCell.reuseID, bundle: .main)
+        tableView.register(primaryCellNib, forCellReuseIdentifier: PrimarySettingTableViewCell.reuseID)
+        let playerCellNib = UINib(nibName: PlayerTableViewCell.reuseID, bundle: .main)
+        tableView.register(playerCellNib, forCellReuseIdentifier: PlayerTableViewCell.reuseID)
         tableView.sectionHeaderHeight = 44
     }
     
     @objc
-    func didTapDoneButton(_ sender: UIButton) {
+    private func didTapDoneButton(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func dismissKeyboard() {
+        view.endEditing(true)
     }
 
 }
