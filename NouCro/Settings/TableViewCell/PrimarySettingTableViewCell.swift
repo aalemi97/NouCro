@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class PrimarySettingTableViewCell: UITableViewCell, ReusableCell {
     
@@ -13,6 +14,7 @@ class PrimarySettingTableViewCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var indexLabel: UILabel!
     @IBOutlet weak var stepper: UIStepper!
     private var viewModel: PrimarySettingsCellViewModel?
+    private var cancellables: Set<AnyCancellable> = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,16 +27,29 @@ class PrimarySettingTableViewCell: UITableViewCell, ReusableCell {
     func update(with viewModel: any Reusable) {
         guard let viewModel = viewModel as? PrimarySettingsCellViewModel else { return }
         self.viewModel = viewModel
-        titleLabel.text = viewModel.model.title
-        indexLabel.text = "\(viewModel.model.value)"
-        stepper.value = Double(viewModel.model.value)
-        stepper.minimumValue = Double(viewModel.model.minValue)
-        stepper.maximumValue = Double(viewModel.model.maxValue)
+        titleLabel.text = viewModel.title
+        setStepper(with: viewModel.get(property: .current))
+        stepper.minimumValue = viewModel.get(property: .min)
+        stepper.maximumValue = viewModel.get(property: .max)
+        viewModel.currentPublisher.sink { [weak self] value in
+            self?.setStepper(with: Double(value))
+        }.store(in: &cancellables)
+        viewModel.maxPublisher.sink { [weak self] value in
+            self?.stepper.maximumValue = Double(value)
+        }.store(in: &cancellables)
+        viewModel.minPublisher.sink { [weak self] value in
+            self?.stepper.minimumValue = Double(value)
+        }.store(in: &cancellables)
         return
     }
     
+    private func setStepper(with value: Double) {
+        stepper.value = value
+        indexLabel.text = "\(Int(value))"
+    }
+    
     @IBAction func stepperDidChange(_ sender: UIStepper) {
-        indexLabel.text = "\(Int(sender.value))"
+        viewModel?.send(Int(sender.value))
     }
     
 }

@@ -10,6 +10,5 @@ import Foundation
 protocol Reusable {
     associatedtype Model: Hashable
     init(model: Model, cell: ReusableCell.Type)
-    func getModel() -> Model
     func getReuseID() -> String
 }

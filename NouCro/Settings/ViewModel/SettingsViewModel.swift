@@ -6,42 +6,56 @@
 //
 
 import Foundation
+import Combine
 
 class SettingsViewModel: ViewModelProvider {
     
     weak var view: Viewable?
-    private var gridSize: Int = 0
-    private var players: [Player] = []
+    private var gridSizeSettings: PrimarySettingsCellViewModel?
+    private var playersSettings: PrimarySettingsCellViewModel?
+    private var cancellables: Set<AnyCancellable> = []
     
     func viewDidLoad(_ view: any Viewable) {
         self.view = view
-        setupSettingsData()
+        retrieveSettingsData()
     }
     
-    private func setupSettingsData() {
+    private func retrieveSettingsData() {
+        var gridSize: Int = 0
+        var players: [Player] = []
         let group = DispatchGroup()
         group.enter()
-        GameParametersManager.shared.getGridSize { gridSize in
-            self.gridSize = gridSize
+        GameParametersManager.shared.getGridSize { size in
+            gridSize = size
             group.leave()
         }
         group.enter()
-        GameParametersManager.shared.getPlayers { players in
-            self.players = players
+        GameParametersManager.shared.getPlayers { gamePlayers in
+            players = gamePlayers
             group.leave()
         }
         group.notify(queue: .main) { [weak self] in
-            self?.generateSettingsData()
+            self?.setupSettings(gridSize: gridSize, players: players)
         }
     }
     
-    private func generateSettingsData() {
-        let primarySettings = [
-            PrimarySettingModel(title: "Grid Size", value: gridSize, minValue: 3, maxValue: 10),
-            PrimarySettingModel(title: "Players Number", value: players.count, minValue: 2, maxValue: 9)
-        ]
-        let primaries = primarySettings.map({ PrimarySettingsCellViewModel(model: $0, cell: PrimarySettingTableViewCell.self) })
-        view?.show(result: .success(primaries))
+    private func setupSettings(gridSize: Int, players: [Player]) {
+        gridSizeSettings = PrimarySettingsCellViewModel(model: PrimarySettingModel(current: gridSize, min: 3, max: 10, title: "Grid Size"),
+                                                        cell: PrimarySettingTableViewCell.self)
+        gridSizeSettings?.valuePublisher.sink { [weak self] newValue in
+            if Double(newValue) > self?.playersSettings?.get(property: .current) ?? Double(players.count) {
+                self?.gridSizeSettings?.update(property: .current, withValue: newValue)
+                self?.playersSettings?.update(property: .max, withValue: newValue - 1)
+            }
+        }.store(in: &cancellables)
+        
+        playersSettings = PrimarySettingsCellViewModel(model: PrimarySettingModel(current: players.count, min: 2, max: gridSize - 1, title: "Players Number"),
+                                                       cell: PrimarySettingTableViewCell.self)
+        playersSettings?.valuePublisher.sink { [weak self] newValue in
+            self?.playersSettings?.update(property: .current, withValue: newValue)
+            self?.gridSizeSettings?.update(property: .min, withValue: newValue + 1)
+        }.store(in: &cancellables)
+        view?.show(result: .success([gridSizeSettings, playersSettings]))
         let playersSection = players.map({ PlayerCellViewModel(model: $0, cell: PlayerTableViewCell.self) })
         view?.show(result: .success(playersSection))
     }
