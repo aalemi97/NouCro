@@ -34,7 +34,7 @@ class HomeViewModel: ViewModelProvider {
         let group = DispatchGroup()
         group.enter()
         GameParametersManager.shared.getGridSize { [weak self] size in
-            self?.gridSize = size
+            self?.gridSize = Int(size?.size ?? 3)
             group.leave()
         }
         group.enter()

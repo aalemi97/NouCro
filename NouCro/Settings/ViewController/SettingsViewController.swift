@@ -20,7 +20,7 @@ class SettingsViewController: UIViewController, Storyboarded {
         set {}
     }
     
-    private let viewModel: ViewModelProvider
+    let viewModel: ViewModelProvider
     var dataSource: SettingsDataSource!
     
     required init?(coder: NSCoder, viewModel: any ViewModelProvider) {
@@ -36,10 +36,21 @@ class SettingsViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.viewDidLoad(self)
+        setupUI()
+    }
+    
+    private func setupUI() {
         setupTableView()
         navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton))
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        self.view.addGestureRecognizer(tap)
+        view.addGestureRecognizer(tap)
+        let button = UIButton(type: .system)
+        button.setTitle(" Back", for: .normal)
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        let backButton = UIBarButtonItem(customView: button)
+        navigationItem.leftBarButtonItem = backButton
     }
     
     private func setupTableView() {
@@ -53,6 +64,16 @@ class SettingsViewController: UIViewController, Storyboarded {
     
     @objc
     private func didTapDoneButton(_ sender: UIButton) {
+        (viewModel as? SettingsViewModel)?.saveDatabase(onCompletion: { [weak self] shoulDismiss in
+            if (shoulDismiss) {
+                self?.navigationController?.popViewController(animated: true)
+            }
+        })
+    }
+    
+    @objc
+    func didTapBackButton(_ sender: UIButton) {
+        (viewModel as? SettingsViewModel)?.resetDatabase();
         navigationController?.popViewController(animated: true)
     }
     

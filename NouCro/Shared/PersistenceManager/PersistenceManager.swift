@@ -63,21 +63,13 @@ class PersistenceManager: PersistenceManagerProvider {
                 return
             }
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: DataType.descriptor)
-            request.predicate = NSPredicate(format: "id = %@", data.id)
+            request.predicate = NSPredicate(format: "uuid == %@", data.uuid as CVarArg)
             do {
                 if let result = try self.context.fetch(request).first as? NSManagedObject {
                     self.context.delete(result)
+                    promise(.success(true))
                 }
-                self.save().sink(receiveCompletion: { result in
-                    switch result {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        promise(.failure(error))
-                    }
-                }, receiveValue: { value in
-                    promise(.success(value))
-                }).store(in: &self.cancellables)
+                promise(.failure(.dataBaseError(message: "Could not find data with uuid: \(data.uuid) in the database")))
             } catch {
                 promise(.failure(.dataBaseError(message: error.localizedDescription)))
             }
@@ -108,6 +100,9 @@ class PersistenceManager: PersistenceManagerProvider {
                 promise(.failure(.dataBaseError(message: error.localizedDescription)))
             }
         }.eraseToAnyPublisher()
-        
+    }
+    
+    func resetDatabase() {
+        context.reset()
     }
 }

@@ -14,4 +14,5 @@ protocol PersistenceManagerProvider {
     @discardableResult func save() -> AnyPublisher<Bool, NCError>
     @discardableResult func delete<DataType: Storable>(data: DataType) -> AnyPublisher<Bool, NCError>
     @discardableResult func deleteDatabase(for entity: String) -> AnyPublisher<Bool, NCError>
+    func resetDatabase()
 }

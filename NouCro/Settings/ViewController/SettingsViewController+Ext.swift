@@ -33,6 +33,7 @@ extension SettingsViewController: Viewable {
     }
     private func setupTableView(_ section: [PlayerCellViewModel]) {
         var snapshot = dataSource.snapshot()
+        snapshot.deleteSections([.players])
         snapshot.appendSections([.players])
         snapshot.appendItems(section.map({ .player(viewModel: $0) }), toSection: .players)
         dataSource.apply(snapshot)
@@ -58,5 +59,15 @@ extension SettingsViewController: UITableViewDelegate {
         default:
             return 44
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard indexPath.section != 0 else { return nil }
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completion in
+            (self?.viewModel as? SettingsViewModel)?.removePlayer(at: indexPath.row) { value in
+                completion(value)
+            }
+        }
+        return UISwipeActionsConfiguration(actions: [action])
     }
 }

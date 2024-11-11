@@ -10,7 +10,7 @@ import CoreData
 
 protocol Storable: Hashable, NSManagedObject {
     static var descriptor: String { get }
-    var id: String { get }
+    var uuid: UUID { get }
 }
 
 extension Storable {
