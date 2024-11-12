@@ -46,8 +46,8 @@ class GameParametersManager: GameParametersProvider {
     
     private func getDefaultPlayers() -> [Player] {
         let players =  [
-            Player(name: "Annie", color: "#663DFF", icon: "xmark"),
-            Player(name: "Alex", color: "#CC4499", icon: "circle")
+            Player(name: "Annie", color: .init(mode: .pink), icon: "xmark"),
+            Player(name: "Alex", color: .init(mode: .purple), icon: "circle")
         ]
         PersistenceManager.shared.save()
         return players

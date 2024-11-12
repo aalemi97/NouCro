@@ -21,10 +21,10 @@ enum Action: Hashable {
         }
     }
     
-    func getColor() -> String {
+    func getColor() -> Color {
         switch self {
         case .none(_):
-            return "black"
+            return .init(mode: .none)
         case let .play(_, player):
             return player.color
         }

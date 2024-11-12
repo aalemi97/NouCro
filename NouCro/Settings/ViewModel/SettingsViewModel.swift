@@ -111,7 +111,7 @@ class SettingsViewModel: ViewModelProvider {
     }
     
     private func addNewPlayer() {
-        let player = Player(name: "New Player", color: "", icon: "")
+        let player = Player(name: "New Player", color: .init(mode: .random), icon: "")
         let newRow = PlayerCellViewModel(model: player, cell: PlayerTableViewCell.self)
         self.playersSection.append(newRow)
     }

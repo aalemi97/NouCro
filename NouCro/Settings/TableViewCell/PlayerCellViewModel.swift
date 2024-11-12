@@ -30,7 +30,7 @@ class PlayerCellViewModel: NSObject, Reusable {
         model.name = name
     }
     
-    func setPlayerColor(_ color: String) {
-        model.color = color
+    func setPlayerColor(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        model.color = .init(red: Float(red), green: Float(green), blue: Float(blue), alpha: Float(alpha))
     }
 }

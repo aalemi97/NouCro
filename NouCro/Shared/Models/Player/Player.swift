@@ -13,11 +13,11 @@ import CoreData
 public class Player: NSManagedObject {
     
     @NSManaged public var name: String
-    @NSManaged public var color: String
+    @NSManaged public var color: Color
     @NSManaged public var icon: String
     @NSManaged public var uuid: UUID
     
-    convenience init(name: String, color: String, icon: String) {
+    convenience init(name: String, color: Color, icon: String) {
         self.init(context: PersistenceManager.shared.context)
         self.name = name
         self.color = color
