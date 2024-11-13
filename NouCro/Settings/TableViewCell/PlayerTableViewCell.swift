@@ -11,12 +11,13 @@ import Combine
 class PlayerTableViewCell: UITableViewCell, ReusableCell {
     
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var colorPicker: UIColorWell!
     private var viewModel: PlayerCellViewModel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        colorPicker.addTarget(self, action: #selector(colorPickerDidChange), for: .valueChanged)
+        setupUI()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -27,8 +28,11 @@ class PlayerTableViewCell: UITableViewCell, ReusableCell {
         guard let viewModel = viewModel as? PlayerCellViewModel else { return }
         self.viewModel = viewModel
         nameTextField.text = viewModel.getModel().name
+        iconImageView.image = UIImage(systemName: viewModel.getModel().icon)
         let color = viewModel.getModel().color
-        colorPicker.selectedColor = UIColor(red: CGFloat(color.red), green: CGFloat(color.green), blue: CGFloat(color.blue), alpha: CGFloat(color.alpha))
+        let uicolor = UIColor(red: CGFloat(color.red), green: CGFloat(color.green), blue: CGFloat(color.blue), alpha: CGFloat(color.alpha))
+        colorPicker.selectedColor = uicolor
+        iconImageView.tintColor = uicolor
         return
     }
     
@@ -36,6 +40,14 @@ class PlayerTableViewCell: UITableViewCell, ReusableCell {
     func textFieldDidEndEditing(_ sender: UITextField) {
         guard let name = sender.text, !name.isEmpty else { return }
         viewModel?.setPlayerName(name)
+    }
+    
+    private func setupUI() {
+        colorPicker.addTarget(self, action: #selector(colorPickerDidChange), for: .valueChanged)
+        iconImageView.layer.masksToBounds = true
+        iconImageView.layer.borderColor = UIColor.systemGray5.cgColor
+        iconImageView.layer.borderWidth = 1
+        iconImageView.layer.cornerRadius = 5
     }
     
     @objc
@@ -48,6 +60,7 @@ class PlayerTableViewCell: UITableViewCell, ReusableCell {
         color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         roundRGBValues(red: &red, green: &green, blue: &blue, alpha: &alpha)
         viewModel?.setPlayerColor(red: red, green: green, blue: blue, alpha: alpha)
+        iconImageView.tintColor = color
     }
     
     private func roundRGBValues(red: inout CGFloat, green: inout CGFloat, blue: inout CGFloat, alpha: inout CGFloat) {

@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Player name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RIn-Kp-qTG">
-                        <rect key="frame" x="8" y="8" width="497" height="123"/>
+                        <rect key="frame" x="8" y="8" width="430" height="123"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                         <connections>
@@ -32,19 +32,30 @@
                             <constraint firstAttribute="width" constant="44" id="b0S-B5-jDp"/>
                         </constraints>
                     </colorWell>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FfW-Ak-Tri">
+                        <rect key="frame" x="448" y="8" width="55" height="123"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="55" id="Buq-2h-cRZ"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="RIn-Kp-qTG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="64p-bX-nDd"/>
                     <constraint firstItem="bQU-Dd-hb5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="AlJ-bl-eat"/>
+                    <constraint firstItem="bQU-Dd-hb5" firstAttribute="leading" secondItem="FfW-Ak-Tri" secondAttribute="trailing" constant="10" id="QlW-Np-u2e"/>
                     <constraint firstItem="RIn-Kp-qTG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="SC9-b6-9UJ"/>
+                    <constraint firstItem="FfW-Ak-Tri" firstAttribute="leading" secondItem="RIn-Kp-qTG" secondAttribute="trailing" constant="10" id="hih-J4-pTR"/>
                     <constraint firstAttribute="bottom" secondItem="RIn-Kp-qTG" secondAttribute="bottom" constant="8" id="i2I-i7-HKT"/>
                     <constraint firstAttribute="trailing" secondItem="bQU-Dd-hb5" secondAttribute="trailing" constant="8" id="iEZ-Us-EgW"/>
-                    <constraint firstItem="bQU-Dd-hb5" firstAttribute="leading" secondItem="RIn-Kp-qTG" secondAttribute="trailing" constant="8" id="zn1-P7-e2p"/>
+                    <constraint firstItem="FfW-Ak-Tri" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="kCc-fa-qbN"/>
+                    <constraint firstAttribute="bottom" secondItem="FfW-Ak-Tri" secondAttribute="bottom" constant="8" id="tGi-2t-gjI"/>
+                    <constraint firstItem="FfW-Ak-Tri" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zRr-D5-nJM"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="colorPicker" destination="bQU-Dd-hb5" id="SA5-dc-anq"/>
+                <outlet property="iconImageView" destination="FfW-Ak-Tri" id="jLm-Ri-zHo"/>
                 <outlet property="nameTextField" destination="RIn-Kp-qTG" id="jh6-b8-xzA"/>
             </connections>
             <point key="canvasLocation" x="319.84732824427482" y="54.577464788732399"/>
