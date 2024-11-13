@@ -11,7 +11,7 @@ import Combine
 class SettingsViewModel: ViewModelProvider {
     
     weak var view: Viewable?
-    private var gridSize: GridSize?
+    private var gridSize: Grid?
     private var gridSizeSetting: PrimarySettingsCellViewModel?
     private var playersSection: [PlayerCellViewModel] = [] {
         didSet {
@@ -92,7 +92,7 @@ class SettingsViewModel: ViewModelProvider {
         guard let size = self.gridSize?.size else { return }
         gridSizeSetting = PrimarySettingsCellViewModel(model: PrimarySettingModel(current: Int(size), min: 3, max: 10, title: "Grid Size"), cell: PrimarySettingTableViewCell.self)
         gridSizeSetting?.valuePublisher.sink { [weak self] newValue in
-            self?.gridSize?.size = Int16(newValue)
+            self?.gridSize?.dimension = Int16(newValue)
             self?.gridSizeSetting?.update(property: .current, withValue: newValue)
             self?.playersSetting?.update(property: .max, withValue: newValue - 1)
         }.store(in: &cancellables)

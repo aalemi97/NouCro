@@ -11,7 +11,7 @@ import Combine
 class HomeViewModel: ViewModelProvider {
     
     private weak var view: Viewable?
-    public private(set) var gridSize: Int = 3
+    public private(set) var gridSize: Grid?
     private var players: [Player] = []
     private var actions: [Action] = []
     private var gameController: GameEngineProvider?
@@ -34,7 +34,7 @@ class HomeViewModel: ViewModelProvider {
         let group = DispatchGroup()
         group.enter()
         GameParametersManager.shared.getGridSize { [weak self] size in
-            self?.gridSize = Int(size?.size ?? 3)
+            self?.gridSize = size
             group.leave()
         }
         group.enter()
@@ -65,10 +65,11 @@ class HomeViewModel: ViewModelProvider {
     }
     
     private func createBoard() {
+        guard let gridSize = gridSize else { return }
         gameController = nil
-        gameController = GameEngineController(playersNumber: Int32(players.count), gridSize: Int32(gridSize))
+        gameController = GameEngineController(playersNumber: Int32(players.count), gridSize: Int32(gridSize.size))
         actions = []
-        for i in 0..<gridSize * gridSize {
+        for i in 0..<gridSize.grid {
             actions.append(.none(index: i))
         }
         view?.show(result: .success(actions))
@@ -76,8 +77,9 @@ class HomeViewModel: ViewModelProvider {
     }
     
     private func addAction(for index: Int) {
-        let row: Int = index / gridSize
-        let column: Int = index % gridSize
+        guard let size = gridSize?.size else { return }
+        let row: Int = index / size
+        let column: Int = index % size
         guard let turn = gameController?.addMove([NSNumber(value: row), NSNumber(value: column)]) else { return }
         actions[index] = .play(index: index, player: players[self.turn])
         view?.show(result: .success(actions))

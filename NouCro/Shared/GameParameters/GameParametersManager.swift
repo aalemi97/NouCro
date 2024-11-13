@@ -29,7 +29,7 @@ class GameParametersManager: GameParametersProvider {
         
     }
     
-    func getGridSize(onCompletion: @escaping (GridSize?) -> Void) {
+    func getGridSize(onCompletion: @escaping (Grid?) -> Void) {
         PersistenceManager.shared.get().sink { [weak self] result in
             switch result {
             case .finished:
@@ -38,7 +38,7 @@ class GameParametersManager: GameParametersProvider {
                 let size = self?.getDefaultGridSize()
                 onCompletion(size)
             }
-        } receiveValue: { (size: [GridSize]) in
+        } receiveValue: { (size: [Grid]) in
             onCompletion(size.first)
         }.store(in: &cancellables)
         
@@ -53,8 +53,8 @@ class GameParametersManager: GameParametersProvider {
         return players
     }
     
-    private func getDefaultGridSize() -> GridSize {
-        let size = GridSize(size: 3)
+    private func getDefaultGridSize() -> Grid {
+        let size = Grid(dimension: 3)
         PersistenceManager.shared.save()
         return size
     }

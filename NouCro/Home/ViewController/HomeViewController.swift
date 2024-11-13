@@ -49,7 +49,14 @@ class HomeViewController: UIViewController, Storyboarded {
         super.viewDidLoad()
         setupCollectionView()
         setupNameLabel()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         viewModel.viewDidLoad(self)
+        if let gridSize = (viewModel as? HomeViewModel)?.gridSize?.size {
+            collecionView.collectionViewLayout = createLayout(forGridSize: gridSize)
+        }
     }
     
     func didSelectItem(at index: Int) {
@@ -84,8 +91,6 @@ class HomeViewController: UIViewController, Storyboarded {
         collecionView.delegate = self
         let nib = UINib(nibName: ActionCollectionViewCell.reuseID, bundle: .main)
         collecionView.register(nib, forCellWithReuseIdentifier: ActionCollectionViewCell.reuseID)
-        let gridSize = (viewModel as? HomeViewModel)?.gridSize ?? 3
-        collecionView.collectionViewLayout = createLayout(forGridSize: gridSize)
     }
     
     private func createLayout(forGridSize n: Int) -> UICollectionViewCompositionalLayout {
