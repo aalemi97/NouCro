@@ -49,14 +49,12 @@ class HomeViewController: UIViewController, Storyboarded {
         super.viewDidLoad()
         setupCollectionView()
         setupNameLabel()
+        subscribeToGridChange()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.viewDidLoad(self)
-        if let gridSize = (viewModel as? HomeViewModel)?.gridSize?.size {
-            collecionView.collectionViewLayout = createLayout(forGridSize: gridSize)
-        }
     }
     
     func didSelectItem(at index: Int) {
@@ -87,6 +85,13 @@ class HomeViewController: UIViewController, Storyboarded {
             self?.nameLabel.text = player.name
         }).store(in: &cancellables)
     }
+    
+    private func subscribeToGridChange() {
+        (viewModel as? HomeViewModel)?.dimensionPublisher.sink(receiveValue: { [unowned self] dimension in
+            self.collecionView.collectionViewLayout = self.createLayout(forGridSize: dimension)
+        }).store(in: &cancellables)
+    }
+    
     private func setupCollectionView() {
         collecionView.delegate = self
         let nib = UINib(nibName: ActionCollectionViewCell.reuseID, bundle: .main)

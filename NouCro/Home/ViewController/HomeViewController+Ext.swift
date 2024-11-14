@@ -32,6 +32,7 @@ extension HomeViewController: Viewable {
         snapshot.appendSections([.main])
         snapshot.appendItems(source)
         dataSource.apply(snapshot)
+        collecionView.isUserInteractionEnabled = true
     }
     
     private func annouceGameResult(_ result: String) {
@@ -42,7 +43,9 @@ extension HomeViewController: Viewable {
             message = "\(result) won the game!"
         }
         let alert = UIAlertController(title: "Game Result!", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
+            self?.collecionView.isUserInteractionEnabled = false
+        }))
         alert.addAction(UIAlertAction(title: "Restart", style: .default, handler: { [weak self] _ in
             self?.restartGame()
         }))
