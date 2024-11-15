@@ -70,5 +70,5 @@ struct SelectIconView: View {
 }
 
 #Preview {
-    SelectIconView(viewModel: .init(player: Player(name: "Test", color: Color.init(mode: .random), icon: "xmark")))
+    SelectIconView(viewModel: .init(player: Player(name: "Test", color: NCColor.init(mode: .random), icon: "xmark")))
 }

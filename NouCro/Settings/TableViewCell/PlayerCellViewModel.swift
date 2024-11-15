@@ -23,7 +23,7 @@ class PlayerCellViewModel: NSObject, Reusable {
     var playerName: String {
         return model.name
     }
-    var playerColor: Color {
+    var playerColor: NCColor {
         return model.color
     }
     var storageModel: some Storable {

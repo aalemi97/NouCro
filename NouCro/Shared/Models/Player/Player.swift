@@ -14,7 +14,7 @@ import Combine
 public class Player: NSManagedObject {
     
     @NSManaged public var name: String
-    @NSManaged public var color: Color
+    @NSManaged public var color: NCColor
     @NSManaged public var icon: String
     @NSManaged public var uuid: UUID
     private var iconSubject: PassthroughSubject<String, Never> = .init()
@@ -22,7 +22,7 @@ public class Player: NSManagedObject {
         iconSubject.eraseToAnyPublisher()
     }
     
-    convenience init(name: String, color: Color, icon: String) {
+    convenience init(name: String, color: NCColor, icon: String) {
         self.init(context: PersistenceManager.shared.context)
         self.name = name
         self.color = color

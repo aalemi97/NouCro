@@ -21,7 +21,7 @@ enum Action: Hashable {
         }
     }
     
-    func getColor() -> Color {
+    func getColor() -> NCColor {
         switch self {
         case .none(_):
             return .init(mode: .none)

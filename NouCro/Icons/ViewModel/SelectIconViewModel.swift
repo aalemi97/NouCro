@@ -9,7 +9,7 @@ import Foundation
 
 class SelectIconViewModel: ObservableObject {
     
-    let color: Color
+    let color: NCColor
     private let player: Player
     @Published public private(set) var iconNames: [String] = []
     @Published public private(set) var selectedIconName: String {

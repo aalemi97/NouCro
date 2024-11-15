@@ -8,8 +8,8 @@
 import Foundation
 import CoreData
 
-@objc(Color)
-public class Color: NSManagedObject {
+@objc(NCColor)
+public class NCColor: NSManagedObject {
     
     enum ColorMode {
         case none
@@ -61,6 +61,6 @@ public class Color: NSManagedObject {
     
 }
 
-extension Color: Identifiable {
+extension NCColor: Identifiable {
     
 }
