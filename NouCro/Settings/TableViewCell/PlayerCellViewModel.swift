@@ -10,8 +10,8 @@ import Combine
 
 class PlayerCellViewModel: NSObject, Reusable {
     
-    typealias Model = Player
-    private var model: Player
+    typealias Model = NCPlayer
+    private var model: NCPlayer
     private var cell: ReusableCell.Type
     private var iconButtonTapSubject: PassthroughSubject<Void, Never> = .init()
     var iconButtonTapPublisher: AnyPublisher<Void, Never> {
@@ -33,7 +33,7 @@ class PlayerCellViewModel: NSObject, Reusable {
         return model.icon
     }
     
-    required init(model: Player, cell: ReusableCell.Type) {
+    required init(model: NCPlayer, cell: ReusableCell.Type) {
         self.model = model
         self.cell = cell
     }

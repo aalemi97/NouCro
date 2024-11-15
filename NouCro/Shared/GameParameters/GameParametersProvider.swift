@@ -8,6 +8,6 @@
 import Foundation
 
 protocol GameParametersProvider {
-    func getPlayers(onCompletion: @escaping ([Player]) -> Void )
-    func getGridSize(onCompletion: @escaping (Grid?) -> Void)
+    func getPlayers(onCompletion: @escaping ([NCPlayer]) -> Void )
+    func getGridSize(onCompletion: @escaping (NCGrid?) -> Void)
 }

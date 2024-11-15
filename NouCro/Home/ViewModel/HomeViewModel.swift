@@ -11,14 +11,14 @@ import Combine
 class HomeViewModel: ViewModelProvider {
     
     private weak var view: Viewable?
-    private var grid: Grid? {
+    private var grid: NCGrid? {
         willSet(newValue) {
             if let newValue {
                 dimension.send(newValue.size)
             }
         }
     }
-    private var players: [Player] = []
+    private var players: [NCPlayer] = []
     private var actions: [Action] = []
     private var gameController: GameEngineProvider?
     private var turn: Int = 0 {
@@ -30,8 +30,8 @@ class HomeViewModel: ViewModelProvider {
     var dimensionPublisher: AnyPublisher<Int, Never> {
         dimension.eraseToAnyPublisher()
     }
-    private var currentPlayer: PassthroughSubject<Player, Never> = .init()
-    var currentPlayerPublisher: AnyPublisher<Player, Never> {
+    private var currentPlayer: PassthroughSubject<NCPlayer, Never> = .init()
+    var currentPlayerPublisher: AnyPublisher<NCPlayer, Never> {
         currentPlayer.eraseToAnyPublisher()
     }
     

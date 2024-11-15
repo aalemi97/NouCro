@@ -11,7 +11,7 @@ import Combine
 class SettingsViewModel: ViewModelProvider {
     
     weak var view: Viewable?
-    private var gridSize: Grid?
+    private var gridSize: NCGrid?
     private var gridSizeSetting: PrimarySettingsCellViewModel?
     private var playersSection: [PlayerCellViewModel] = [] {
         didSet {
@@ -22,8 +22,8 @@ class SettingsViewModel: ViewModelProvider {
     }
     private var playersSetting: PrimarySettingsCellViewModel?
     private var cancellables: Set<AnyCancellable> = []
-    private var playerIconTapSubject: PassthroughSubject<Player, Never> = .init()
-    var playerIconTapPublisher: AnyPublisher<Player, Never> {
+    private var playerIconTapSubject: PassthroughSubject<NCPlayer, Never> = .init()
+    var playerIconTapPublisher: AnyPublisher<NCPlayer, Never> {
         playerIconTapSubject.eraseToAnyPublisher()
     }
     
@@ -69,7 +69,7 @@ class SettingsViewModel: ViewModelProvider {
     }
     
     private func retrieveSettingsData() {
-        var players: [Player] = []
+        var players: [NCPlayer] = []
         let group = DispatchGroup()
         group.enter()
         GameParametersManager.shared.getGridSize { [weak self] gridSize in
@@ -86,14 +86,14 @@ class SettingsViewModel: ViewModelProvider {
         }
     }
     
-    private func setupSettings(players: [Player]) {
+    private func setupSettings(players: [NCPlayer]) {
         setupGridSizeSetting()
         setupPlayersSetting(with: players)
         view?.show(result: .success([gridSizeSetting!, playersSetting!]))
         playersSection = players.map({ createNewRow(for: $0) })
     }
     
-    private func createNewRow(for player: Player) -> PlayerCellViewModel {
+    private func createNewRow(for player: NCPlayer) -> PlayerCellViewModel {
         let viewModel = PlayerCellViewModel(model: player, cell: PlayerTableViewCell.self)
         viewModel.iconButtonTapPublisher.sink { [weak self] in
             self?.playerIconTapSubject.send(player)
@@ -111,7 +111,7 @@ class SettingsViewModel: ViewModelProvider {
         }.store(in: &cancellables)
     }
     
-    private func setupPlayersSetting(with players: [Player]) {
+    private func setupPlayersSetting(with players: [NCPlayer]) {
         guard let size = self.gridSize?.size else { return }
         playersSetting = PrimarySettingsCellViewModel(model: PrimarySettingModel(current: players.count, min: 2, max: Int(size) - 1, title: "Players Number"), cell: PrimarySettingTableViewCell.self)
         playersSetting?.valuePublisher.sink { [weak self] newValue in
@@ -124,7 +124,7 @@ class SettingsViewModel: ViewModelProvider {
     }
     
     private func addNewPlayer() {
-        let player = Player(name: "New Player", color: .init(mode: .random), icon: "")
+        let player = NCPlayer(name: "New Player", color: .init(mode: .random), icon: "")
         let newRow = createNewRow(for: player)
         self.playersSection.append(newRow)
     }

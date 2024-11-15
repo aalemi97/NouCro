@@ -1,5 +1,5 @@
 //
-//  Player.swift
+//  NCPlayer.swift
 //  NouCro
 //
 //  Created by AliReza on 2024-10-25.
@@ -10,8 +10,8 @@ import Foundation
 import CoreData
 import Combine
 
-@objc(Player)
-public class Player: NSManagedObject {
+@objc(NCPlayer)
+public class NCPlayer: NSManagedObject {
     
     @NSManaged public var name: String
     @NSManaged public var color: NCColor
@@ -36,6 +36,6 @@ public class Player: NSManagedObject {
     }
 }
 
-extension Player: Storable, Identifiable {
+extension NCPlayer: Storable, Identifiable {
     
 }

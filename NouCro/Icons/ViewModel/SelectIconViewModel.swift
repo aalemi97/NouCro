@@ -10,7 +10,7 @@ import Foundation
 class SelectIconViewModel: ObservableObject {
     
     let color: NCColor
-    private let player: Player
+    private let player: NCPlayer
     @Published public private(set) var iconNames: [String] = []
     @Published public private(set) var selectedIconName: String {
         didSet {
@@ -19,7 +19,7 @@ class SelectIconViewModel: ObservableObject {
     }
     @Published var shouldDismiss: Bool = false
     
-    init(player: Player) {
+    init(player: NCPlayer) {
         self.player = player
         self.color = player.color
         self.selectedIconName = player.icon

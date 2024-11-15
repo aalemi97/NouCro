@@ -10,7 +10,7 @@ import Foundation
 enum Action: Hashable {
     
     case none(index: Int)
-    case play(index: Int, player: Player)
+    case play(index: Int, player: NCPlayer)
     
     var image: String {
         switch self {

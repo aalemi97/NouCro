@@ -1,5 +1,5 @@
 //
-//  Grid.swift
+//  NCGrid.swift
 //  NouCro
 //
 //  Created by AliReza on 2024-10-25.
@@ -9,8 +9,8 @@
 import Foundation
 import CoreData
 
-@objc(Grid)
-public class Grid: NSManagedObject {
+@objc(NCGrid)
+public class NCGrid: NSManagedObject {
     
     @NSManaged public var dimension: Int16
     @NSManaged public var uuid: UUID
@@ -22,7 +22,7 @@ public class Grid: NSManagedObject {
     }
 }
 
-extension Grid: Storable, Identifiable {
+extension NCGrid: Storable, Identifiable {
     
     var size: Int {
         return Int(dimension)

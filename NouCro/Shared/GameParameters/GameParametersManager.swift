@@ -14,7 +14,7 @@ class GameParametersManager: GameParametersProvider {
     
     private init() {}
     
-    func getPlayers(onCompletion: @escaping ([Player]) -> Void) {
+    func getPlayers(onCompletion: @escaping ([NCPlayer]) -> Void) {
         PersistenceManager.shared.get().sink { [weak self] result in
             switch result {
             case .finished:
@@ -23,13 +23,13 @@ class GameParametersManager: GameParametersProvider {
                 let players = self?.getDefaultPlayers() ?? []
                 onCompletion(players)
             }
-        } receiveValue: { (players: [Player]) in
+        } receiveValue: { (players: [NCPlayer]) in
             onCompletion(players)
         }.store(in: &cancellables)
         
     }
     
-    func getGridSize(onCompletion: @escaping (Grid?) -> Void) {
+    func getGridSize(onCompletion: @escaping (NCGrid?) -> Void) {
         PersistenceManager.shared.get().sink { [weak self] result in
             switch result {
             case .finished:
@@ -38,23 +38,23 @@ class GameParametersManager: GameParametersProvider {
                 let size = self?.getDefaultGridSize()
                 onCompletion(size)
             }
-        } receiveValue: { (size: [Grid]) in
+        } receiveValue: { (size: [NCGrid]) in
             onCompletion(size.first)
         }.store(in: &cancellables)
         
     }
     
-    private func getDefaultPlayers() -> [Player] {
+    private func getDefaultPlayers() -> [NCPlayer] {
         let players =  [
-            Player(name: "Annie", color: .init(mode: .pink), icon: "xmark"),
-            Player(name: "Alex", color: .init(mode: .purple), icon: "circle")
+            NCPlayer(name: "Annie", color: .init(mode: .pink), icon: "xmark"),
+            NCPlayer(name: "Alex", color: .init(mode: .purple), icon: "circle")
         ]
         PersistenceManager.shared.save()
         return players
     }
     
-    private func getDefaultGridSize() -> Grid {
-        let size = Grid(dimension: 3)
+    private func getDefaultGridSize() -> NCGrid {
+        let size = NCGrid(dimension: 3)
         PersistenceManager.shared.save()
         return size
     }

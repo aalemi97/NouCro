@@ -37,7 +37,7 @@ class HomeCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
     
-    func pushSelectIconView(for player: Player) {
+    func pushSelectIconView(for player: NCPlayer) {
         let viewModel = SelectIconViewModel(player: player)
         let viewController = UIHostingController(rootView: SelectIconView(viewModel: viewModel))
         viewController.view.backgroundColor = .clear
