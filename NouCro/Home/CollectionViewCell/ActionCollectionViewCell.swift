@@ -20,7 +20,7 @@ class ActionCollectionViewCell: UICollectionViewCell {
         backgroundColor = .systemGray5
     }
     
-    func update(model: Action) {
+    func update(model: NCAction) {
         actionImageView.tintColor = model.color.uiColor
         actionImageView.image = UIImage(systemName: model.image)
     }

@@ -1,5 +1,5 @@
 //
-//  Action.swift
+//  NCAction.swift
 //  NouCro
 //
 //  Created by AliReza on 2024-10-20.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Action: Hashable {
+enum NCAction: Hashable {
     
     case none(index: Int)
     case play(index: Int, player: NCPlayer)

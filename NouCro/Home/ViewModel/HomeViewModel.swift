@@ -19,7 +19,7 @@ class HomeViewModel: ViewModelProvider {
         }
     }
     private var players: [NCPlayer] = []
-    private var actions: [Action] = []
+    private var actions: [NCAction] = []
     private var gameController: GameEngineProvider?
     private var turn: Int = 0 {
         didSet {

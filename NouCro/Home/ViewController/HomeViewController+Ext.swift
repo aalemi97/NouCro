@@ -12,7 +12,7 @@ extension HomeViewController: Viewable {
     func show(result: Result<Any, NCError>) {
         switch result {
         case .success(let data):
-            if let source = data as? [Action] {
+            if let source = data as? [NCAction] {
                 setupCollectionView(source: source)
                 undoButton.isEnabled = !source.enumerated().filter({ $0.element != .none(index: $0.offset)}).isEmpty
             }
@@ -25,7 +25,7 @@ extension HomeViewController: Viewable {
         return
     }
     
-    private func setupCollectionView(source: [Action]) {
+    private func setupCollectionView(source: [NCAction]) {
         dataSource = createDataSource(source)
         collecionView.dataSource = dataSource
         var snapshot = Snapshot()
@@ -61,7 +61,7 @@ extension HomeViewController: UICollectionViewDelegate {
         return
     }
     
-    fileprivate func createDataSource(_ source: [Action]) -> DataSource {
+    fileprivate func createDataSource(_ source: [NCAction]) -> DataSource {
         let dataSource = DataSource(collectionView: collecionView) { collectionView, indexPath, action in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActionCollectionViewCell.reuseID, for: indexPath) as? ActionCollectionViewCell
             cell?.update(model: action)

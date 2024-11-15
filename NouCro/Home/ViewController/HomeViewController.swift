@@ -14,8 +14,8 @@ class HomeViewController: UIViewController, Storyboarded {
         case main
     }
     
-    typealias DataSource = UICollectionViewDiffableDataSource<CollectionViewSection, Action>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<CollectionViewSection, Action>
+    typealias DataSource = UICollectionViewDiffableDataSource<CollectionViewSection, NCAction>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<CollectionViewSection, NCAction>
     
     private var viewModel: ViewModelProvider
     
