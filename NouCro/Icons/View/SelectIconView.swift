@@ -12,7 +12,7 @@ struct SelectIconView: View {
     let cols = [GridItem(.flexible()),
                 GridItem(.flexible()),
                 GridItem(.flexible())]
-    var tintColor: SwiftUI.Color {
+    var tintColor: Color {
         return .init(viewModel.color.uiColor)
     }
     var body: some View {
@@ -48,10 +48,10 @@ struct SelectIconView: View {
                             .onTapGesture {
                                 viewModel.didSelectItem(withName: name)
                             }
-                            .background(SwiftUI.Color.white)
+                            .background(Color.white)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(SwiftUI.Color.gray, lineWidth: 2)
+                                    .stroke(Color.gray, lineWidth: 2)
                             )
                         }
                     }
@@ -61,7 +61,7 @@ struct SelectIconView: View {
             .frame(maxHeight: 500, alignment: .bottom)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(SwiftUI.Color(UIColor.systemGray6))
+                    .fill(Color(UIColor.systemGray6))
                     .shadow(radius: 5)
             )
         }
