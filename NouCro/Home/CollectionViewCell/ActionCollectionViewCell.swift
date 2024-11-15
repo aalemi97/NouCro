@@ -21,9 +21,8 @@ class ActionCollectionViewCell: UICollectionViewCell {
     }
     
     func update(model: Action) {
-        let color = model.getColor()
-        actionImageView.tintColor = UIColor(red: CGFloat(color.red), green: CGFloat(color.green), blue: CGFloat(color.blue), alpha: CGFloat(color.alpha))
-        actionImageView.image = UIImage(systemName: model.getImage())
+        actionImageView.tintColor = model.color.uiColor
+        actionImageView.image = UIImage(systemName: model.image)
     }
 
 }

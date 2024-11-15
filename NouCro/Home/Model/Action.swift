@@ -12,7 +12,7 @@ enum Action: Hashable {
     case none(index: Int)
     case play(index: Int, player: Player)
     
-    func getImage() -> String {
+    var image: String {
         switch self {
         case .none(_):
             return ""
@@ -21,7 +21,7 @@ enum Action: Hashable {
         }
     }
     
-    func getColor() -> NCColor {
+    var color: NCColor {
         switch self {
         case .none(_):
             return .init(mode: .none)
