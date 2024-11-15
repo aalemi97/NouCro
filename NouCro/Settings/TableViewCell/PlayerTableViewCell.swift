@@ -14,6 +14,7 @@ class PlayerTableViewCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var colorPicker: UIColorWell!
     private var viewModel: PlayerCellViewModel?
+    private var cancelables: Set<AnyCancellable> = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,10 +28,12 @@ class PlayerTableViewCell: UITableViewCell, ReusableCell {
     func update(with viewModel: any Reusable) {
         guard let viewModel = viewModel as? PlayerCellViewModel else { return }
         self.viewModel = viewModel
-        nameTextField.text = viewModel.getModel().name
-        iconImageView.image = UIImage(systemName: viewModel.getModel().icon)
-        let color = viewModel.getModel().color
-        let uicolor = UIColor(red: CGFloat(color.red), green: CGFloat(color.green), blue: CGFloat(color.blue), alpha: CGFloat(color.alpha))
+        nameTextField.text = viewModel.playerName
+        iconImageView.image = UIImage(systemName: viewModel.playerIconName)
+        viewModel.playerIconNamePublisher.sink { [weak self] systemName in
+            self?.iconImageView.image = UIImage(systemName: systemName)
+        }.store(in: &cancelables)
+        let uicolor = viewModel.playerColor.uiColor
         colorPicker.selectedColor = uicolor
         iconImageView.tintColor = uicolor
         return
@@ -42,12 +45,9 @@ class PlayerTableViewCell: UITableViewCell, ReusableCell {
         viewModel?.setPlayerName(name)
     }
     
-    private func setupUI() {
-        colorPicker.addTarget(self, action: #selector(colorPickerDidChange), for: .valueChanged)
-        iconImageView.layer.masksToBounds = true
-        iconImageView.layer.borderColor = UIColor.systemGray5.cgColor
-        iconImageView.layer.borderWidth = 1
-        iconImageView.layer.cornerRadius = 5
+    @objc
+    func didSelectPlayerIconButton(_ sender: UIButton) {
+        viewModel?.didSelectPlayerIconButton()
     }
     
     @objc
@@ -68,5 +68,16 @@ class PlayerTableViewCell: UITableViewCell, ReusableCell {
         green = round(green * 1000) / 1000
         blue = round(blue * 1000) / 1000
         alpha = round(alpha * 1000) / 1000
+    }
+    
+    private func setupUI() {
+        colorPicker.addTarget(self, action: #selector(colorPickerDidChange), for: .valueChanged)
+        iconImageView.layer.masksToBounds = true
+        iconImageView.layer.borderColor = UIColor.systemGray5.cgColor
+        iconImageView.layer.borderWidth = 1
+        iconImageView.layer.cornerRadius = 5
+        iconImageView.isUserInteractionEnabled = true
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didSelectPlayerIconButton))
+        iconImageView.addGestureRecognizer(tapGestureRecognizer)
     }
 }

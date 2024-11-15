@@ -22,6 +22,11 @@ class SettingsViewModel: ViewModelProvider {
     }
     private var playersSetting: PrimarySettingsCellViewModel?
     private var cancellables: Set<AnyCancellable> = []
+    private var playerIconTapSubject: PassthroughSubject<Player, Never> = .init()
+    var playerIconTapPublisher: AnyPublisher<Player, Never> {
+        playerIconTapSubject.eraseToAnyPublisher()
+    }
+    
     
     func viewDidLoad(_ view: any Viewable) {
         self.view = view
@@ -30,7 +35,7 @@ class SettingsViewModel: ViewModelProvider {
     
     func removePlayer(at index: Int, onCompletion: @escaping ((Bool) -> Void)) {
         guard playersSection.count > 2, index < playersSection.count else { return }
-        PersistenceManager.shared.delete(data: playersSection[index].getModel()).sink { completion in
+        PersistenceManager.shared.delete(data: playersSection[index].storageModel).sink { completion in
             switch completion {
             case .finished:
                 break
@@ -85,7 +90,15 @@ class SettingsViewModel: ViewModelProvider {
         setupGridSizeSetting()
         setupPlayersSetting(with: players)
         view?.show(result: .success([gridSizeSetting!, playersSetting!]))
-        playersSection = players.map({ PlayerCellViewModel(model: $0, cell: PlayerTableViewCell.self) })
+        playersSection = players.map({ createNewRow(for: $0) })
+    }
+    
+    private func createNewRow(for player: Player) -> PlayerCellViewModel {
+        let viewModel = PlayerCellViewModel(model: player, cell: PlayerTableViewCell.self)
+        viewModel.iconButtonTapPublisher.sink { [weak self] in
+            self?.playerIconTapSubject.send(player)
+        }.store(in: &cancellables)
+        return viewModel
     }
     
     private func setupGridSizeSetting() {
@@ -112,7 +125,7 @@ class SettingsViewModel: ViewModelProvider {
     
     private func addNewPlayer() {
         let player = Player(name: "New Player", color: .init(mode: .random), icon: "")
-        let newRow = PlayerCellViewModel(model: player, cell: PlayerTableViewCell.self)
+        let newRow = createNewRow(for: player)
         self.playersSection.append(newRow)
     }
 }

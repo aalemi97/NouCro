@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 class HomeCoordinator: Coordinator {
     private let navigationController: NCNavigationController
@@ -30,6 +31,29 @@ class HomeCoordinator: Coordinator {
     func pushSettingsViewController() {
         let viewModel = SettingsViewModel()
         let viewController = SettingsViewController.instantiate(viewModel: viewModel)
+        viewModel.playerIconTapPublisher.sink { [weak self] player in
+            self?.pushSelectIconView(for: player)
+        }.store(in: &cancellables)
         navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    func pushSelectIconView(for player: Player) {
+        let viewModel = SelectIconViewModel(player: player)
+        let viewController = UIHostingController(rootView: SelectIconView(viewModel: viewModel))
+        viewController.view.backgroundColor = .clear
+        viewController.modalPresentationStyle = .overCurrentContext
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismiss))
+        viewController.view.addGestureRecognizer(tap)
+        viewController.modalTransitionStyle = .coverVertical
+        viewModel.$shouldDismiss.sink { [weak self] value in
+            value ? self?.dismiss() : nil
+        }.store(in: &cancellables)
+        navigationController.present(viewController, animated: true)
+        return
+    }
+    
+    @objc
+    private func dismiss() {
+        navigationController.dismiss(animated: true)
     }
 }
