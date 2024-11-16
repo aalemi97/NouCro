@@ -1,5 +1,5 @@
 //
-//  PrimarySettingsCellViewModel.swift
+//  PrimarySettingCellViewModel.swift
 //  NouCro
 //
 //  Created by AliReza on 2024-10-30.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class PrimarySettingsCellViewModel: NSObject, Reusable {
+class PrimarySettingCellViewModel: NSObject, Reusable {
     
     typealias Model = PrimarySettingModel
     private let model: Model

@@ -13,7 +13,7 @@ class PrimarySettingEditorTableViewCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var indexLabel: UILabel!
     @IBOutlet weak var stepper: UIStepper!
-    private var viewModel: PrimarySettingsCellViewModel?
+    private var viewModel: PrimarySettingCellViewModel?
     private var cancellables: Set<AnyCancellable> = []
     
     override func awakeFromNib() {
@@ -25,7 +25,7 @@ class PrimarySettingEditorTableViewCell: UITableViewCell, ReusableCell {
     }
     
     func update(with viewModel: any Reusable) {
-        guard let viewModel = viewModel as? PrimarySettingsCellViewModel else { return }
+        guard let viewModel = viewModel as? PrimarySettingCellViewModel else { return }
         self.viewModel = viewModel
         titleLabel.text = viewModel.title
         setStepper(with: viewModel.get(property: .current))

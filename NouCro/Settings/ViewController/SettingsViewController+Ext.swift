@@ -11,7 +11,7 @@ extension SettingsViewController: Viewable {
     func show(result: Result<Any, NCError>) {
         switch result {
         case .success(let data):
-            if let section = data as? [PrimarySettingsCellViewModel] {
+            if let section = data as? [PrimarySettingCellViewModel] {
                 setupTableView(section)
                 break
             }
@@ -24,7 +24,7 @@ extension SettingsViewController: Viewable {
         return
     }
     
-    private func setupTableView(_ section: [PrimarySettingsCellViewModel]) {
+    private func setupTableView(_ section: [PrimarySettingCellViewModel]) {
         self.dataSource = createDataSource()
         var snapshot = SnapShot()
         snapshot.appendSections([.primaries])

@@ -12,7 +12,7 @@ class SettingsViewModel: ViewModelProvider {
     // MARK: - Properties
     weak var view: Viewable?
     private var gridSize: NCGrid?
-    private var gridSizeSetting: PrimarySettingsCellViewModel?
+    private var gridSizeSetting: PrimarySettingCellViewModel?
     private var playersSection: [PlayerCellViewModel] = [] {
         didSet {
             view?.show(result: .success(playersSection))
@@ -20,7 +20,7 @@ class SettingsViewModel: ViewModelProvider {
             self.gridSizeSetting?.update(property: .min, withValue: playersSection.count + 1)
         }
     }
-    private var playersSetting: PrimarySettingsCellViewModel?
+    private var playersSetting: PrimarySettingCellViewModel?
     private var cancellables: Set<AnyCancellable> = []
     private var playerIconTapSubject: PassthroughSubject<NCPlayer, Never> = .init()
     var playerIconTapPublisher: AnyPublisher<NCPlayer, Never> {
@@ -113,7 +113,7 @@ class SettingsViewModel: ViewModelProvider {
     
     private func setupGridSizeSetting() {
         guard let size = self.gridSize?.size else { return }
-        gridSizeSetting = PrimarySettingsCellViewModel(model: PrimarySettingModel(current: Int(size), min: 3, max: 10, title: "Grid Size"), cell: PrimarySettingEditorTableViewCell.self)
+        gridSizeSetting = PrimarySettingCellViewModel(model: PrimarySettingModel(current: Int(size), min: 3, max: 10, title: "Grid Size"), cell: PrimarySettingEditorTableViewCell.self)
         gridSizeSetting?.valuePublisher.sink { [weak self] newValue in
             self?.gridSize?.dimension = Int16(newValue)
             self?.gridSizeSetting?.update(property: .current, withValue: newValue)
@@ -123,7 +123,7 @@ class SettingsViewModel: ViewModelProvider {
     
     private func setupPlayersSetting(with players: [NCPlayer]) {
         guard let size = self.gridSize?.size else { return }
-        playersSetting = PrimarySettingsCellViewModel(model: PrimarySettingModel(current: players.count, min: 2, max: Int(size) - 1, title: "Players Number"), cell: PrimarySettingEditorTableViewCell.self)
+        playersSetting = PrimarySettingCellViewModel(model: PrimarySettingModel(current: players.count, min: 2, max: Int(size) - 1, title: "Players Number"), cell: PrimarySettingEditorTableViewCell.self)
         playersSetting?.valuePublisher.sink { [weak self] newValue in
             if newValue > self?.playersSection.count ?? 0 {
                 self?.addNewPlayer()

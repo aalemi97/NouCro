@@ -13,7 +13,7 @@ enum SettingsTableViewSection: String, CaseIterable {
 }
 
 enum SettingsModel: Hashable {
-    case primary(viewModel: PrimarySettingsCellViewModel)
+    case primary(viewModel: PrimarySettingCellViewModel)
     case player(viewModel: PlayerCellViewModel)
 }
 
