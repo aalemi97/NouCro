@@ -25,6 +25,8 @@ class PrimarySettingEditorTableViewCell: UITableViewCell, ReusableCell {
     }
     
     func update(with viewModel: any Reusable) {
+        cancellables.forEach({ $0.cancel() })
+        cancellables.removeAll()
         guard let viewModel = viewModel as? PrimarySettingCellViewModel else { return }
         self.viewModel = viewModel
         titleLabel.text = viewModel.title

@@ -14,7 +14,7 @@ class PlayerEditorTableViewCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var colorPicker: UIColorWell!
     private var viewModel: PlayerCellViewModel?
-    private var cancelables: Set<AnyCancellable> = []
+    private var cancellables: Set<AnyCancellable> = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,13 +26,15 @@ class PlayerEditorTableViewCell: UITableViewCell, ReusableCell {
     }
     
     func update(with viewModel: any Reusable) {
+        cancellables.forEach({ $0.cancel() })
+        cancellables.removeAll()
         guard let viewModel = viewModel as? PlayerCellViewModel else { return }
         self.viewModel = viewModel
         nameTextField.text = viewModel.playerName
         iconImageView.image = UIImage(systemName: viewModel.playerIconName)
         viewModel.playerIconNamePublisher.sink { [weak self] systemName in
             self?.iconImageView.image = UIImage(systemName: systemName)
-        }.store(in: &cancelables)
+        }.store(in: &cancellables)
         let uicolor = viewModel.playerColor.uiColor
         colorPicker.selectedColor = uicolor
         iconImageView.tintColor = uicolor
