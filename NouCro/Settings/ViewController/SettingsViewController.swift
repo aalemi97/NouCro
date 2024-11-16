@@ -63,8 +63,8 @@ class SettingsViewController: UIViewController, Storyboarded {
     
     private func setupTableView() {
         tableView.delegate = self
-        let primaryCellNib = UINib(nibName: PrimarySettingTableViewCell.reuseID, bundle: .main)
-        tableView.register(primaryCellNib, forCellReuseIdentifier: PrimarySettingTableViewCell.reuseID)
+        let primaryCellNib = UINib(nibName: PrimarySettingEditorTableViewCell.reuseID, bundle: .main)
+        tableView.register(primaryCellNib, forCellReuseIdentifier: PrimarySettingEditorTableViewCell.reuseID)
         let playerCellNib = UINib(nibName: PlayerEditorTableViewCell.reuseID, bundle: .main)
         tableView.register(playerCellNib, forCellReuseIdentifier: PlayerEditorTableViewCell.reuseID)
         tableView.sectionHeaderHeight = 44

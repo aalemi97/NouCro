@@ -1,5 +1,5 @@
 //
-//  PrimarySettingTableViewCell.swift
+//  PrimarySettingEditorTableViewCell.swift
 //  NouCro
 //
 //  Created by AliReza on 2024-10-21.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class PrimarySettingTableViewCell: UITableViewCell, ReusableCell {
+class PrimarySettingEditorTableViewCell: UITableViewCell, ReusableCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var indexLabel: UILabel!
