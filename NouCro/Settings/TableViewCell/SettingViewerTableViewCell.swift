@@ -38,6 +38,9 @@ class SettingViewerTableViewCell: UITableViewCell, ReusableCell {
         if let valueLabel {
             valueLabel.removeFromSuperview()
         }
+        if let iconImageView {
+            iconImageView.removeFromSuperview()
+        }
         let imageView = UIImageView(image: UIImage(systemName: imageName))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = tintColor
@@ -56,6 +59,9 @@ class SettingViewerTableViewCell: UITableViewCell, ReusableCell {
     private func addValueLabel(withValue value: Double) {
         if let iconImageView {
             iconImageView.removeFromSuperview()
+        }
+        if let valueLabel {
+            valueLabel.removeFromSuperview()
         }
         let valueLabel = UILabel()
         valueLabel.font = .systemFont(ofSize: 15)
