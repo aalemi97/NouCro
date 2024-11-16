@@ -32,7 +32,6 @@ class SettingsViewController: UIViewController, Storyboarded {
         fatalError("init(coder:) has not been implemented")
     }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.viewDidLoad(self)
@@ -41,16 +40,25 @@ class SettingsViewController: UIViewController, Storyboarded {
     
     private func setupUI() {
         setupTableView()
-        navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton))
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
+        setupBarButtonItemForViewerMode()
+    }
+    
+    private func setupBarButtonItemForViewerMode() {
+        navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .edit, target: self, action: #selector(didTapEditButton))
         let button = UIButton(type: .system)
         button.setTitle(" Back", for: .normal)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         let backButton = UIBarButtonItem(customView: button)
         navigationItem.leftBarButtonItem = backButton
+    }
+    
+    private func setupBarButtonItemForEditorMode() {
+        navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton))
+        navigationItem.leftBarButtonItem = .init(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancelButton))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     private func setupTableView() {
@@ -63,18 +71,31 @@ class SettingsViewController: UIViewController, Storyboarded {
     }
     
     @objc
+    private func didTapEditButton(_ sender: UIButton) {
+        (viewModel as? SettingsViewModel)?.setPresentationMode(to: .editor)
+        setupBarButtonItemForEditorMode()
+    }
+    
+    @objc
+    private func didTapBackButton(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
     private func didTapDoneButton(_ sender: UIButton) {
-        (viewModel as? SettingsViewModel)?.saveDatabase(onCompletion: { [weak self] shoulDismiss in
-            if (shoulDismiss) {
-                self?.navigationController?.popViewController(animated: true)
+        (viewModel as? SettingsViewModel)?.saveDatabase(onCompletion: { [weak self] completed in
+            if (completed) {
+                (self?.viewModel as? SettingsViewModel)?.setPresentationMode(to: .viewer)
+                self?.setupBarButtonItemForViewerMode()
             }
         })
     }
     
     @objc
-    func didTapBackButton(_ sender: UIButton) {
-        (viewModel as? SettingsViewModel)?.resetDatabase();
-        navigationController?.popViewController(animated: true)
+    private func didTapCancelButton(_ sender: UIButton) {
+        (viewModel as? SettingsViewModel)?.resetDatabase()
+        (viewModel as? SettingsViewModel)?.setPresentationMode(to: .viewer)
+        setupBarButtonItemForViewerMode()
     }
     
     @objc

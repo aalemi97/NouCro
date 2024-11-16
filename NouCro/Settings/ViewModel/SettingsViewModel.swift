@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class SettingsViewModel: ViewModelProvider {
-    
+    // MARK: - Properties
     weak var view: Viewable?
     private var gridSize: NCGrid?
     private var gridSizeSetting: PrimarySettingsCellViewModel?
@@ -27,7 +27,9 @@ class SettingsViewModel: ViewModelProvider {
         playerIconTapSubject.eraseToAnyPublisher()
     }
     
+    var presentationMode: SettingsViewModelPresentationMode = .viewer
     
+    // MARK: - Public methods
     func viewDidLoad(_ view: any Viewable) {
         self.view = view
         retrieveSettingsData()
@@ -68,6 +70,14 @@ class SettingsViewModel: ViewModelProvider {
         PersistenceManager.shared.resetDatabase()
     }
     
+    func setPresentationMode(to presentationMode: SettingsViewModelPresentationMode) {
+        self.presentationMode = presentationMode
+        cancellables.forEach({$0.cancel()})
+        cancellables.removeAll()
+        retrieveSettingsData()
+    }
+    
+    // MARK: - Private methods
     private func retrieveSettingsData() {
         var players: [NCPlayer] = []
         let group = DispatchGroup()
