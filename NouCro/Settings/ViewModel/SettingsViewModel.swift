@@ -104,7 +104,7 @@ class SettingsViewModel: ViewModelProvider {
     }
     
     private func createNewRow(for player: NCPlayer) -> PlayerCellViewModel {
-        let viewModel = PlayerCellViewModel(model: player, cell: PlayerTableViewCell.self)
+        let viewModel = PlayerCellViewModel(model: player, cell: PlayerEditorTableViewCell.self)
         viewModel.iconButtonTapPublisher.sink { [weak self] in
             self?.playerIconTapSubject.send(player)
         }.store(in: &cancellables)

@@ -1,5 +1,5 @@
 //
-//  PlayerTableViewCell.swift
+//  PlayerEditorTableViewCell.swift
 //  NouCro
 //
 //  Created by AliReza on 2024-10-30.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class PlayerTableViewCell: UITableViewCell, ReusableCell {
+class PlayerEditorTableViewCell: UITableViewCell, ReusableCell {
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var iconImageView: UIImageView!
