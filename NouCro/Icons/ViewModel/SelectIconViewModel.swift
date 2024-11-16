@@ -9,6 +9,8 @@ import Foundation
 
 class SelectIconViewModel: ObservableObject {
     
+    static let icons: [String] = ["circle", "circle.fill", "heart", "octagon", "shield", "square.fill", "triangle", "xmark", "xmark.seal.fill"]
+    
     let color: NCColor
     private let player: NCPlayer
     @Published public private(set) var iconNames: [String] = []
@@ -23,11 +25,7 @@ class SelectIconViewModel: ObservableObject {
         self.player = player
         self.color = player.color
         self.selectedIconName = player.icon
-        self.iconNames = self.getIconNames()
-    }
-    
-    private func getIconNames() -> [String] {
-        return ["circle", "circle.fill", "heart", "octagon", "shield", "square.fill", "triangle", "xmark", "xmark.seal.fill"]
+        self.iconNames = SelectIconViewModel.icons
     }
     
     func didSelectItem(withName name: String) {

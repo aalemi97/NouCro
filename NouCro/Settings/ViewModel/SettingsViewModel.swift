@@ -134,7 +134,7 @@ class SettingsViewModel: ViewModelProvider {
     }
     
     private func addNewPlayer() {
-        let player = NCPlayer(name: "New Player", color: .init(mode: .random), icon: "")
+        let player = NCPlayer()
         let newRow = createNewRow(for: player)
         self.playersSection.append(newRow)
     }
