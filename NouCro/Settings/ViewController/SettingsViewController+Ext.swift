@@ -63,6 +63,7 @@ extension SettingsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard indexPath.section != 0 else { return nil }
+        guard (viewModel as? SettingsViewModel)?.presentationMode == .editor else { return nil }
         let action = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completion in
             (self?.viewModel as? SettingsViewModel)?.removePlayer(at: indexPath.row) { value in
                 completion(value)

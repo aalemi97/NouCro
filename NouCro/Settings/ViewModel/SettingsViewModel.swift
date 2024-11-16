@@ -104,7 +104,7 @@ class SettingsViewModel: ViewModelProvider {
     }
     
     private func createNewRow(for player: NCPlayer) -> PlayerCellViewModel {
-        let viewModel = PlayerCellViewModel(model: player, cell: PlayerEditorTableViewCell.self)
+        let viewModel = PlayerCellViewModel(model: player, cell: presentationMode.playerSettingCell)
         viewModel.iconButtonTapPublisher.sink { [weak self] in
             self?.playerIconTapSubject.send(player)
         }.store(in: &cancellables)
@@ -113,7 +113,7 @@ class SettingsViewModel: ViewModelProvider {
     
     private func setupGridSizeSetting() {
         guard let size = self.gridSize?.size else { return }
-        gridSizeSetting = PrimarySettingCellViewModel(model: PrimarySettingModel(current: Int(size), min: 3, max: 10, title: "Grid Size"), cell: PrimarySettingEditorTableViewCell.self)
+        gridSizeSetting = PrimarySettingCellViewModel(model: PrimarySettingModel(current: Int(size), min: 3, max: 10, title: "Grid Size"), cell: presentationMode.primarySettingCell)
         gridSizeSetting?.valuePublisher.sink { [weak self] newValue in
             self?.gridSize?.dimension = Int16(newValue)
             self?.gridSizeSetting?.update(property: .current, withValue: newValue)
@@ -123,7 +123,7 @@ class SettingsViewModel: ViewModelProvider {
     
     private func setupPlayersSetting(with players: [NCPlayer]) {
         guard let size = self.gridSize?.size else { return }
-        playersSetting = PrimarySettingCellViewModel(model: PrimarySettingModel(current: players.count, min: 2, max: Int(size) - 1, title: "Players Number"), cell: PrimarySettingEditorTableViewCell.self)
+        playersSetting = PrimarySettingCellViewModel(model: PrimarySettingModel(current: players.count, min: 2, max: Int(size) - 1, title: "Players Number"), cell: presentationMode.primarySettingCell)
         playersSetting?.valuePublisher.sink { [weak self] newValue in
             if newValue > self?.playersSection.count ?? 0 {
                 self?.addNewPlayer()

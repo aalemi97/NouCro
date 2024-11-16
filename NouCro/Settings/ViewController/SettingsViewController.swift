@@ -52,6 +52,7 @@ class SettingsViewController: UIViewController, Storyboarded {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         let backButton = UIBarButtonItem(customView: button)
         navigationItem.leftBarButtonItem = backButton
+        tableView.allowsSelection = false
     }
     
     private func setupBarButtonItemForEditorMode() {
@@ -59,10 +60,13 @@ class SettingsViewController: UIViewController, Storyboarded {
         navigationItem.leftBarButtonItem = .init(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancelButton))
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+        tableView.allowsSelection = true
     }
     
     private func setupTableView() {
         tableView.delegate = self
+        let viewerCellNib = UINib(nibName: SettingViewerTableViewCell.reuseID, bundle: .main)
+        tableView.register(viewerCellNib, forCellReuseIdentifier: SettingViewerTableViewCell.reuseID)
         let primaryCellNib = UINib(nibName: PrimarySettingEditorTableViewCell.reuseID, bundle: .main)
         tableView.register(primaryCellNib, forCellReuseIdentifier: PrimarySettingEditorTableViewCell.reuseID)
         let playerCellNib = UINib(nibName: PlayerEditorTableViewCell.reuseID, bundle: .main)
