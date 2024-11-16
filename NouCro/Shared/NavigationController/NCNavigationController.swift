@@ -11,6 +11,7 @@ class NCNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationBar.tintColor = UIColor(named: "Purple")
     }
 
 }
