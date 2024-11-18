@@ -64,7 +64,7 @@ class SettingViewerTableViewCell: UITableViewCell, ReusableCell {
             valueLabel.removeFromSuperview()
         }
         let valueLabel = UILabel()
-        valueLabel.font = .systemFont(ofSize: 15)
+        valueLabel.font = UIFont(name: "Arial Rounded MT Bold", size: 15.0)
         valueLabel.text = "\(Int(value))"
         valueLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(valueLabel)
