@@ -22,6 +22,7 @@ class HomeViewController: UIViewController, Storyboarded {
     var dataSource: DataSource!
     
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var settingsButton: UIButton! {
         didSet {
             settingsButton.setTitle("", for: .normal)
@@ -30,6 +31,12 @@ class HomeViewController: UIViewController, Storyboarded {
     @IBOutlet weak var undoButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var collecionView: UICollectionView!
+    override var title: String? {
+        get {
+            return "Home"
+        }
+        set {}
+    }
     private var settingsButtonTapSubject: PassthroughSubject<Bool, Never> = .init()
     var settingsButtonTapPublisher: AnyPublisher<Bool, Never> {
         settingsButtonTapSubject.eraseToAnyPublisher()
@@ -48,7 +55,7 @@ class HomeViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        setupNameLabel()
+        setupPlayerDetails()
         subscribeToGridChange()
     }
     
@@ -80,9 +87,11 @@ class HomeViewController: UIViewController, Storyboarded {
         settingsButtonTapSubject.send(true)
     }
     
-    private func setupNameLabel() {
+    private func setupPlayerDetails() {
         (viewModel as? HomeViewModel)?.currentPlayerPublisher.sink(receiveValue: { [weak self] player in
             self?.nameLabel.text = player.name
+            self?.iconImageView.image = UIImage(systemName: player.icon)
+            self?.iconImageView.tintColor = player.color.uiColor
         }).store(in: &cancellables)
     }
     
