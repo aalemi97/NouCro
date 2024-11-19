@@ -43,8 +43,12 @@ class PlayerEditorTableViewCell: UITableViewCell, ReusableCell {
     
     @IBAction
     func textFieldDidEndEditing(_ sender: UITextField) {
-        guard let name = sender.text, !name.isEmpty else { return }
+        guard let name = sender.text?.trimmingCharacters(in: .whitespacesAndNewlines), !name.isEmpty else {
+            sender.text = viewModel?.playerName
+            return
+        }
         viewModel?.setPlayerName(name)
+        sender.text = name
     }
     
     @objc
