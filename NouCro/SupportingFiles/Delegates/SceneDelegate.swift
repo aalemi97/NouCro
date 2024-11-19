@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = NCNavigationController()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
+        window.overrideUserInterfaceStyle = .light
         self.window = window
         coordinator = HomeCoordinator(navigationController: navigationController)
         coordinator?.start()
