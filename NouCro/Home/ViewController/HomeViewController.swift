@@ -102,6 +102,7 @@ class HomeViewController: UIViewController, Storyboarded {
     }
     
     private func setupCollectionView() {
+        collecionView.backgroundColor = .ncBackground
         collecionView.delegate = self
         let nib = UINib(nibName: ActionCollectionViewCell.reuseID, bundle: .main)
         collecionView.register(nib, forCellWithReuseIdentifier: ActionCollectionViewCell.reuseID)
