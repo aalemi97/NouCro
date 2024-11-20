@@ -21,10 +21,11 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K77-c1-721">
                         <rect key="frame" x="8" y="61.000000000000007" width="37.666666666666664" height="16.333333333333336"/>
                         <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="14"/>
-                        <color key="textColor" name="NCBlack"/>
+                        <color key="textColor" name="NCTitle"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <color key="backgroundColor" name="NCSecondary"/>
                 <constraints>
                     <constraint firstItem="K77-c1-721" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="9YE-eK-m7D"/>
                     <constraint firstItem="K77-c1-721" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Yi2-cj-uqO"/>
@@ -38,8 +39,11 @@
         </tableViewCell>
     </objects>
     <resources>
-        <namedColor name="NCBlack">
-            <color red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="NCSecondary">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="NCTitle">
+            <color red="0.14509803921568629" green="0.15686274509803921" blue="0.16862745098039217" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

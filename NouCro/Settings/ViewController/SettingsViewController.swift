@@ -64,6 +64,8 @@ class SettingsViewController: UIViewController, Storyboarded {
     }
     
     private func setupTableView() {
+        tableView.separatorColor = .ncBorder
+        tableView.backgroundColor = .ncBackground
         tableView.delegate = self
         let viewerCellNib = UINib(nibName: SettingViewerTableViewCell.reuseID, bundle: .main)
         tableView.register(viewerCellNib, forCellReuseIdentifier: SettingViewerTableViewCell.reuseID)

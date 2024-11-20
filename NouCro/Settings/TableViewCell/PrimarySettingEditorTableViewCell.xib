@@ -24,13 +24,13 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Wj-gm-JiW">
                                 <rect key="frame" x="0.0" y="0.0" width="93" height="96"/>
                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="14"/>
-                                <color key="textColor" name="NCBlack"/>
+                                <color key="textColor" name="NCTitle"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Index" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LIW-Zm-8xj">
                                 <rect key="frame" x="117" y="0.0" width="93" height="96"/>
                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="14"/>
-                                <color key="textColor" name="NCBlack"/>
+                                <color key="textColor" name="NCTitle"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -42,6 +42,7 @@
                         </connections>
                     </stepper>
                 </subviews>
+                <color key="backgroundColor" name="NCSecondary"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="kuu-MH-g4H" secondAttribute="bottom" id="Bqc-Ws-PIf"/>
                     <constraint firstItem="kuu-MH-g4H" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="DcZ-MN-QAF"/>
@@ -62,8 +63,11 @@
         </tableViewCell>
     </objects>
     <resources>
-        <namedColor name="NCBlack">
-            <color red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="NCSecondary">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="NCTitle">
+            <color red="0.14509803921568629" green="0.15686274509803921" blue="0.16862745098039217" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

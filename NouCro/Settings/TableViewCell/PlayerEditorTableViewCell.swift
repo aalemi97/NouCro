@@ -77,11 +77,15 @@ class PlayerEditorTableViewCell: UITableViewCell, ReusableCell {
     }
     
     private func setupUI() {
+        nameTextField.layer.masksToBounds = true
+        nameTextField.layer.borderWidth = 1
+        nameTextField.layer.borderColor = UIColor.ncBorder.cgColor
+        nameTextField.layer.cornerRadius = 10
         colorPicker.addTarget(self, action: #selector(colorPickerDidChange), for: .valueChanged)
         iconImageView.layer.masksToBounds = true
-        iconImageView.layer.borderColor = UIColor.systemGray5.cgColor
+        iconImageView.layer.borderColor = UIColor.ncBorder.cgColor
         iconImageView.layer.borderWidth = 1
-        iconImageView.layer.cornerRadius = 5
+        iconImageView.layer.cornerRadius = 10
         iconImageView.isUserInteractionEnabled = true
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didSelectPlayerIconButton))
         iconImageView.addGestureRecognizer(tapGestureRecognizer)

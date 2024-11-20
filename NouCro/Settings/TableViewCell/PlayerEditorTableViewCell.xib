@@ -18,11 +18,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="565" height="139"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Player name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RIn-Kp-qTG">
+                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Player name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="RIn-Kp-qTG">
                         <rect key="frame" x="8" y="8" width="430" height="123"/>
-                        <color key="textColor" name="NCBlack"/>
+                        <color key="backgroundColor" name="NCSecondary"/>
+                        <color key="textColor" name="NCTitle"/>
                         <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" textContentType="name"/>
                         <connections>
                             <action selector="textFieldDidEndEditing:" destination="KGk-i7-Jjw" eventType="editingDidEnd" id="vNn-nB-w0M"/>
                         </connections>
@@ -41,6 +42,7 @@
                         </constraints>
                     </imageView>
                 </subviews>
+                <color key="backgroundColor" name="NCSecondary"/>
                 <constraints>
                     <constraint firstItem="RIn-Kp-qTG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="64p-bX-nDd"/>
                     <constraint firstItem="bQU-Dd-hb5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="AlJ-bl-eat"/>
@@ -49,8 +51,7 @@
                     <constraint firstItem="FfW-Ak-Tri" firstAttribute="leading" secondItem="RIn-Kp-qTG" secondAttribute="trailing" constant="10" id="hih-J4-pTR"/>
                     <constraint firstAttribute="bottom" secondItem="RIn-Kp-qTG" secondAttribute="bottom" constant="8" id="i2I-i7-HKT"/>
                     <constraint firstAttribute="trailing" secondItem="bQU-Dd-hb5" secondAttribute="trailing" constant="8" id="iEZ-Us-EgW"/>
-                    <constraint firstItem="FfW-Ak-Tri" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="kCc-fa-qbN"/>
-                    <constraint firstAttribute="bottom" secondItem="FfW-Ak-Tri" secondAttribute="bottom" constant="8" id="tGi-2t-gjI"/>
+                    <constraint firstItem="FfW-Ak-Tri" firstAttribute="height" secondItem="RIn-Kp-qTG" secondAttribute="height" id="vjL-x4-IEb"/>
                     <constraint firstItem="FfW-Ak-Tri" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zRr-D5-nJM"/>
                 </constraints>
             </tableViewCellContentView>
@@ -64,8 +65,11 @@
         </tableViewCell>
     </objects>
     <resources>
-        <namedColor name="NCBlack">
-            <color red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="NCSecondary">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="NCTitle">
+            <color red="0.14509803921568629" green="0.15686274509803921" blue="0.16862745098039217" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
