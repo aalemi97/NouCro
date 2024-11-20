@@ -20,6 +20,7 @@ extension Storyboarded where Self: UIViewController {
         let vc = storyboard.instantiateViewController(identifier: reuseIdentifier) { coder in
             return Self.init(coder: coder, viewModel: viewModel)
         }
+        vc.view.backgroundColor = .ncBackground
         return vc
     }
 }

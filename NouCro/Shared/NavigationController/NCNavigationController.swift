@@ -12,7 +12,7 @@ class NCNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.tintColor = UIColor.ncPinkPurple
-        navigationBar.titleTextAttributes = [.foregroundColor: UIColor.ncPurple]
+        navigationBar.titleTextAttributes = [.foregroundColor: UIColor.ncPink]
     }
 
 }
