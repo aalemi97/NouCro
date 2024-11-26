@@ -41,6 +41,20 @@ class SettingsViewController: UIViewController, Storyboarded {
     private func setupUI() {
         setupTableView()
         setupBarButtonItemForViewerMode()
+        subscribeToKeyboardNotification()
+    }
+    
+    private func setupTableView() {
+        tableView.separatorColor = .ncBorder
+        tableView.backgroundColor = .ncBackground
+        tableView.delegate = self
+        let viewerCellNib = UINib(nibName: SettingViewerTableViewCell.reuseID, bundle: .main)
+        tableView.register(viewerCellNib, forCellReuseIdentifier: SettingViewerTableViewCell.reuseID)
+        let primaryCellNib = UINib(nibName: PrimarySettingEditorTableViewCell.reuseID, bundle: .main)
+        tableView.register(primaryCellNib, forCellReuseIdentifier: PrimarySettingEditorTableViewCell.reuseID)
+        let playerCellNib = UINib(nibName: PlayerEditorTableViewCell.reuseID, bundle: .main)
+        tableView.register(playerCellNib, forCellReuseIdentifier: PlayerEditorTableViewCell.reuseID)
+        tableView.sectionHeaderHeight = 44
     }
     
     private func setupBarButtonItemForViewerMode() {
@@ -63,17 +77,9 @@ class SettingsViewController: UIViewController, Storyboarded {
         tableView.allowsSelection = true
     }
     
-    private func setupTableView() {
-        tableView.separatorColor = .ncBorder
-        tableView.backgroundColor = .ncBackground
-        tableView.delegate = self
-        let viewerCellNib = UINib(nibName: SettingViewerTableViewCell.reuseID, bundle: .main)
-        tableView.register(viewerCellNib, forCellReuseIdentifier: SettingViewerTableViewCell.reuseID)
-        let primaryCellNib = UINib(nibName: PrimarySettingEditorTableViewCell.reuseID, bundle: .main)
-        tableView.register(primaryCellNib, forCellReuseIdentifier: PrimarySettingEditorTableViewCell.reuseID)
-        let playerCellNib = UINib(nibName: PlayerEditorTableViewCell.reuseID, bundle: .main)
-        tableView.register(playerCellNib, forCellReuseIdentifier: PlayerEditorTableViewCell.reuseID)
-        tableView.sectionHeaderHeight = 44
+    private func subscribeToKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc
@@ -108,5 +114,37 @@ class SettingsViewController: UIViewController, Storyboarded {
     private func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
+    @objc
+    private func keyboardWillShow(_ notification: NSNotification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
+            return
+        }
+        
+        let keyboardHeight = keyboardFrame.height
+        UIView.animate(withDuration: animationDuration) {
+            self.tableView.contentInset.bottom = keyboardHeight
+            self.tableView.scrollIndicatorInsets = self.tableView.contentInset
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide(_ notification: NSNotification) {
+        guard let userInfo = notification.userInfo,
+              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
+            return
+        }
+        
+        UIView.animate(withDuration: animationDuration) {
+            self.tableView.contentInset = .zero
+            self.tableView.scrollIndicatorInsets = .zero
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
 }
