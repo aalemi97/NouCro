@@ -90,4 +90,9 @@ class PlayerEditorTableViewCell: UITableViewCell, ReusableCell {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didSelectPlayerIconButton))
         iconImageView.addGestureRecognizer(tapGestureRecognizer)
     }
+    
+    deinit {
+        cancellables.forEach({ $0.cancel() })
+        cancellables.removeAll()
+    }
 }

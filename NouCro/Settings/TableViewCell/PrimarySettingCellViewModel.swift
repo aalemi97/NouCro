@@ -49,4 +49,9 @@ class PrimarySettingCellViewModel: NSObject, Reusable {
         Double(model.get(property: property))
     }
     
+    deinit {
+        cancellables.forEach({ $0.cancel() })
+        cancellables.removeAll()
+    }
+    
 }

@@ -138,4 +138,9 @@ class SettingsViewModel: ViewModelProvider {
         let newRow = createNewRow(for: player)
         self.playersSection.append(newRow)
     }
+    
+    deinit {
+        cancellables.forEach({ $0.cancel() })
+        cancellables.removeAll()
+    }
 }
