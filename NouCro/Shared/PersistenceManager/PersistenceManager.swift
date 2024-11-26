@@ -105,4 +105,9 @@ class PersistenceManager: PersistenceManagerProvider {
     func resetDatabase() {
         context.reset()
     }
+    
+    deinit {
+        cancellables.forEach({ $0.cancel() })
+        cancellables.removeAll()
+    }
 }
