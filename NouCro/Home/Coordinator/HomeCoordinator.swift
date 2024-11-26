@@ -56,4 +56,9 @@ class HomeCoordinator: Coordinator {
     private func dismiss() {
         navigationController.dismiss(animated: true)
     }
+    
+    deinit {
+        cancellables.forEach({ $0.cancel() })
+        cancellables.removeAll()
+    }
 }

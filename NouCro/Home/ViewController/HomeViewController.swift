@@ -129,5 +129,10 @@ class HomeViewController: UIViewController, Storyboarded {
         let sectionLayout = NSCollectionLayoutSection(group: groupLayout)
         return UICollectionViewCompositionalLayout(section: sectionLayout)
     }
+    
+    deinit {
+        cancellables.forEach({$0.cancel()})
+        cancellables.removeAll()
+    }
 
 }
